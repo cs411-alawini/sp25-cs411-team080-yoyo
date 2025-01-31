@@ -8,12 +8,12 @@
 | TeamName    |         yoyo           |
 | Captain     |       Guan-Hong Lin    |
 | Captain     |  gl48@illinois.edu     |
-| Member1     |        Kevin Pei       |
-| Member1     |   kevin2@illinois.edu  |
-| Member2     |     Ti-Chung Cheng     |
-| Member2     |  tichung3@illinois.edu |
-| Member3     |                        |
-| Member3     |                        |
+| Member1     |      Chia-Yu Wang      |
+| Member1     |   chiayuw2@illinois.edu|
+| Member2     |                        |
+| Member2     |  yingder2@illinois.edu |
+| Member3     |      Li, Chengzhe      |
+| Member3     |   cli134@illinois.edu  |
 
 ## Project Information
 
