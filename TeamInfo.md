@@ -25,4 +25,4 @@
 
 ## Project Summary
 
-This is a summary of the project!
+The Used Car Market Analysis and Recommendation System is a web application designed to help users navigate the used car market efficiently. The application provides advanced filtering and live search capabilities, price trend analysis, and a hybrid recommendation system. It aims to solve the problem of information overload and decision paralysis by offering personalized recommendations and insightful market trends. The system also includes user management features, allowing buyers and sellers to interact seamlessly.
