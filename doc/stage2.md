@@ -74,7 +74,7 @@ Whenever there is a nontrivial dependency A1,A2,...,An→BA_1, A_2, ..., A_n \to
 #### Entity Car
 
 ##### Minimal Basis:
-Car ID → Make
+Car ID → Make<br>
 Car ID → Model
 Car ID → Car price
 Car ID → Car badges
