@@ -1,7 +1,69 @@
 # Stage 2
 ---
-### Assumption
+## Assumptions for the Database Design
 
+### Car as an Independent Entity
+A car needs to be an independent entity because it has multiple attributes, such as `FuelType`, `EngineSize`, and `BodyType`. These attributes need to be stored separately rather than as properties of another entity.
+
+### Advertisement as an Independent Entity
+Based on the business logic of a used car marketplace, `Advertisement` is defined as a separate entity.
+
+- Each `User` can post multiple advertisements, but each advertisement must be posted by a single user.
+- Each `Advertisement` is associated with only one `Car`, but the same car model may be linked to multiple advertisements.
+
+### Rating as an Independent Entity
+The `Rating` entity is independent because it has multiple attributes, such as:
+
+- `OverallRating`
+- `ExteriorRating`
+- `InteriorRating`
+- `RideQuality`
+
+These attributes provide a detailed evaluation of a car and need to be stored separately.
+
+- Each `Rating` is for a specific car, but each car can have multiple ratings.
+- **Users are not allowed to submit new ratings; ratings are derived solely from existing data within the database.**  
+  This ensures that all ratings maintain consistency and are not subject to user manipulation.
+
+### User as an Independent Entity
+The `User` entity is independent because it contains essential personal information and authentication details.
+
+- Each `User` has attributes such as:
+  - `UserID`
+  - `Name`
+  - `Email`
+  - `Phone`
+  - `Password` (hashed for security)
+  - `Birthdate`
+  - `Location` (linked to the `Locations` entity)
+  - `IsSeller` (boolean indicating whether the user is a seller)
+  
+- Each `User` can:
+  - Post multiple advertisements.
+  - Be either a buyer or a seller, based on the `IsSeller` attribute.
+
+This structure ensures data privacy, security, and role differentiation.
+
+### User and Location Relationship
+- Each `User` resides in only one city.
+- Each city's geographical coordinates (`Latitude`, `Longitude`) correspond to only one city.
+
+### Locations as an Independent Entity
+The `Locations` entity is independent because each city (`CityName`) has unique latitude (`Latitude`) and longitude (`Longitude`).  
+This design ensures accurate geographic data and enables future enhancements such as filtering advertisements based on city locations.
+
+### Brand as an Independent Entity
+The `Brand` entity is independent because it has multiple attributes, such as:
+
+- `Founder`
+- `CompanyType`
+- `Headquarters`
+- `FoundedYear`
+
+These attributes define unique characteristics of the brand and need to be stored separately.
+
+- Each brand can have multiple car models, but each car model belongs to only one brand.
+- This design allows for future expansions, such as adding brand-specific ratings or market region information.
 
 ---
 ### Relational Schema
