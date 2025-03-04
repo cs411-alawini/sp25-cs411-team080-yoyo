@@ -188,47 +188,99 @@ Locations(
 
 ## Normalization
 
-We identified five core entities and ensured that our schema adheres to the principles of normalization.
+We initialized 6 entities, and when we were ready to normalize them, we found that five of them already met the definition of BCNF, and all entities met the definition of 3NF.  
 
-### Definitions:
-- **3rd Normal Form (3NF):** A relation is in 3NF if every non-trivial functional dependency has a superkey as its determinant or if the dependent attribute is part of the key.
-- **Boyce-Codd Normal Form (BCNF):** A relation is in BCNF if every non-trivial functional dependency has a superkey as its determinant.
+**Definition: A relation R is in 3rd normal form if:**  
+Whenever there is a nontrivial dependency A1, A2, ..., An → B for R, then {A1, A2, ..., An} is a super-key for R, OR B is part of a key.  
 
-### Entity Normalization Details:
+**Definition: A relation R is in BCNF normal form if:**  
+Whenever there is a nontrivial dependency A1, A2, ..., An → B for R, then {A1, A2, ..., An} is a super-key for R.
 
-#### **Car**
-- **Minimal Basis:**
-  - `CarId → Make, Model, CarPrice, CarBadges, ManufactureYear, BodyType, Mileage, EngineVolume, EngineSize, TransmissionType, FuelType, TotalPreviousOwners, FullServiceRecord`
-- `CarId` is a superkey, ensuring 3NF and BCNF compliance.
+---
 
-#### **User**
-- **Minimal Basis:**
-  - `UserId → IsSeller`
-- `UserId` is a superkey, ensuring 3NF and BCNF compliance.
+## Entity Car
 
-#### **Brand**
-- **Minimal Basis:**
-  - `Maker → Founder, CompanyType, Headquarters, FoundedYear`
-- `Maker` is a superkey, ensuring 3NF and BCNF compliance.
+### Minimal Basis:
+- `CarId → Make`
+- `CarId → Model`
+- `CarId → CarPrice`
+- `CarId → CarBadges`
+- `CarId → ManufactureYear`
+- `CarId → BodyType`
+- `CarId → Miles`
+- `CarId → EngineVolume`
+- `CarId → EngineSize`
+- `CarId → TransmissionType`
+- `CarId → FuelType`
 
-#### **Rating**
-- **Minimal Basis:**
-  - `ReviewId → Car_Name, OverallRating, ExteriorRating, InteriorRating, RideQuality`
-- `ReviewId` is a superkey, ensuring 3NF and BCNF compliance.
+CarId is a superkey, so this table is in **3NF**, also in **BCNF**.
 
-#### **Advertisement**
-- **Minimal Basis:**
-  - `(CarId, UserId) → AdvertisementId`
-  - `AdvertisementId → CarId, UserId, CarTitle, CarSubtitle, CarAttentionGrabber, FinanceAvailable, Discounted`
-  - `(CarTitle, CarSubtitle, CarAttentionGrabber, FinanceAvailable, Discounted) → AdvertisementId, CarId, UserId`
-- `(CarId, UserId)`, `AdvertisementId`, and `(CarTitle, CarSubtitle, CarAttentionGrabber, FinanceAvailable, Discounted)` are superkeys.
-- The table is in 3NF but not BCNF since `CarId` is not a superkey.
+---
 
-#### **Locations**
-- **Minimal Basis:**
-  - `CityName → Longitude, Latitude`
-  - `(Longitude, Latitude) → CityName`
-- `CityName` and `(Longitude, Latitude)` are superkeys, ensuring 3NF and BCNF compliance.
+## Entity User
+
+### Minimal Basis:
+- `UserId → IsSeller`
+
+UserId is a superkey, so this table is in **3NF**, also in **BCNF**.
+
+---
+
+## Entity Brand
+
+### Minimal Basis:
+- `Founder → Maker`
+- `Maker → Founder`
+- `Maker → CompanyType`
+- `Maker → Headquarters`
+- `Maker → FoundedYear`
+
+Both Founder and Maker are superkeys, so this table is in **3NF**, also in **BCNF**.
+
+---
+
+## Entity Rating
+
+### Minimal Basis:
+- `ReviewId → CarTitle`
+- `ReviewId → OverallRating`
+- `ReviewId → ExteriorRating`
+- `ReviewId → InteriorRating`
+- `ReviewId → RideQuality`
+
+ReviewId is a superkey, so this table is in **3NF**, also in **BCNF**.
+
+---
+
+## Entity Advertisement
+
+### Minimal Basis:
+- `(CarId, UserId) → AdvertisementId`
+- `AdvertisementId → CarId`
+- `AdvertisementId → UserId`
+- `CarId → CarTitle`
+- `CarId → CarSubtitle`
+- `CarId → CarAttentionGrabber`
+- `CarId → FinanceAvailable`
+- `CarId → Discounted`
+- `(CarTitle, CarSubtitle, CarAttentionGrabber, FinanceAvailable, Discounted) → AdvertisementId`
+- `(CarTitle, CarSubtitle, CarAttentionGrabber, FinanceAvailable, Discounted) → CarId`
+- `(CarTitle, CarSubtitle, CarAttentionGrabber, FinanceAvailable, Discounted) → UserId`
+
+(CarId, UserId), AdvertisementId, and (CarTitle, CarSubtitle, CarAttentionGrabber, FinanceAvailable, Discounted) are superkeys.  
+CarId is **not** a superkey, but CarTitle, CarSubtitle, CarAttentionGrabber, FinanceAvailable, and Discounted are part of candidate key  
+(CarTitle, CarSubtitle, CarAttentionGrabber, FinanceAvailable, Discounted), so this table is **3NF**, but **not in BCNF**.
+
+---
+
+## Entity Location
+
+### Minimal Basis:
+- `CityName → Longitude`
+- `CityName → Latitude`
+- `(Longitude, Latitude) → CityName`
+
+CityName and (Longitude, Latitude) are superkeys, so this table is in **3NF**, also in **BCNF**.
 
 ---
 
