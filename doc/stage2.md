@@ -141,6 +141,18 @@ Car title，Car sub title，Car attention grabber，finance available，discount
 
 (Car ID, User ID) , advertisement ID and (Car title ，Car sub title，Car attention grabber，finance available，discounted) are superkeys. Car ID is not a superkey, but Car title，Car sub title，Car attention grabber，finance available and discounted are part of candidate key  (Car title ，Car sub title，Car attention grabber，finance available，discounted) , so this table is 3NF, but does not in BCNF.
 
+#### Entity Locations
+
+##### Minimal Basis:
+CityName → Longtitude
+CityName → Latitude
+Longitude,Latitude → CityName
+
+CityName and (Longitude,Latitude) are superkey, so this table is in 3NF, also in BCNF.
+
+
+
+
 
 
 
