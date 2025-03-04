@@ -2,10 +2,6 @@
 
 
 
-
-
-### RelationalSchema
-
 ### Relational Schema
 
 User(  
@@ -14,7 +10,7 @@ User(
     Email: VARCHAR(40),  
     BirthDate: DATETIME,  
     Password: VARCHAR(50),  
-    Location: VARCHAR(50),  
+    Location: VARCHAR(50) [FK to Locations.CityName],  
     Name: VARCHAR(30),  
     Phone: VARCHAR(30)  
 )
@@ -54,6 +50,12 @@ Advertisement(
     CarAttentionGrabber: VARCHAR(30),  
     FinanceAvailable: BOOLEAN,  
     Discounted: BOOLEAN  
+)
+
+Locations(  
+    CityName : VARCHAR(30) [PK],  
+    Longtitude : Decimal,  
+    Latitude : Decimal  
 )
 
 ### Normalization
