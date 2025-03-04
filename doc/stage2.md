@@ -92,7 +92,7 @@ Car ID is a superkey, so this table is in 3NF, also in BCNF.<br>
 <br>
 <br>
 #### Entity User<br>
-<br>
+
 #### Minimal Basis:<br>
 User ID→ Car seller<br>
 <br>
@@ -100,7 +100,7 @@ UserID is a superkey, so this table is in 3NF, also in BCNF.<br>
 <br>
 <br>
 #### Entity Brand<br>
-<br>
+
 ##### Minimal Basis:<br>
 Founder →Maker<br>
 Maker →Founder<br>
@@ -113,7 +113,7 @@ Both Founder and Maker are superkey, so this table is in 3NF, also in BCNF.<br>
 <br>
 <br>
 #### Entity Rating<br>
-<br>
+
 ##### Minimal Basis:<br>
 Review ID→ Car_Name<br>
 Review ID→ Overall Rating<br>
@@ -125,7 +125,7 @@ Review ID is a superkey, so this table is in 3NF, also in BCNF.<br>
 <br>
 <br>
 #### Entity Ad<br>
-<br>
+
 ##### Minimal Basis:<br>
 Car ID, User ID → advertisement ID<br>
 advertisement ID → Car ID<br>
@@ -142,7 +142,7 @@ Car title，Car sub title，Car attention grabber，finance available，discount
 (Car ID, User ID) , advertisement ID and (Car title ，Car sub title，Car attention grabber，finance available，discounted) are superkeys. Car ID is not a superkey, but Car title，Car sub title，Car attention grabber，finance available and discounted are part of candidate key  (Car title ，Car sub title，Car attention grabber，finance available，discounted) , so this table is 3NF, but does not in BCNF.<br>
 <br>
 #### Entity Locations<br>
-<br>
+
 ##### Minimal Basis:<br>
 CityName → Longtitude<br>
 CityName → Latitude<br>
