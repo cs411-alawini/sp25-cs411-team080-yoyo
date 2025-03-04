@@ -1,64 +1,128 @@
 # Stage 2
 
-## Assumptions for the Database Design
+## Entity Descriptions and Assumptions
 
-### Car as an Independent Entity
-A car is treated as an independent entity because it has multiple attributes, such as `FuelType`, `EngineSize`, and `BodyType`, which must be stored separately rather than as properties of another entity.
+### **Car**
+**Attributes include:**
+- CarId
+- Make (Brand Name)
+- Model
+- CarTitle (Make + Model)
+- CarPrice
+- CarBadges
+- ManufactureYear
+- BodyType
+- Miles
+- EngineVolume
+- EngineSize
+- TransmissionType
+- FuelType
+- TotalPreviousOwners
+- FullServiceRecord
 
-### Advertisement as an Independent Entity
-In the context of a used car marketplace, `Advertisement` is an independent entity.
+**Assumptions:**
+- A car is an independent entity because it has multiple attributes that need to be stored separately.
+- Each car is uniquely identified by `CarId`.
+- A car’s make is associated with a brand.
 
-- Each `User` can post multiple advertisements, but each advertisement must be posted by a single user.
-- Each `Advertisement` is associated with only one `Car`, although multiple advertisements may feature the same car model.
+**Cardinality and Relationship:**
+- Each `Car` belongs to one `Brand`, but a brand can have multiple cars.
+- A car can have multiple `Ratings`, but each rating is assigned to only one car.
+- A car is listed in at most one `Advertisement`, but multiple advertisements can feature different instances of the same car model.
 
-### Rating as an Independent Entity
-The `Rating` entity is independent because it has multiple attributes such as:
+---
 
-- `OverallRating`
-- `ExteriorRating`
-- `InteriorRating`
-- `RideQuality`
+### **User**
+**Attributes include:**
+- UserId
+- IsSeller
+- Name
+- Phone
+- Email
+- Birthdate
+- Password
+- Location (seller location)
 
-These attributes provide a comprehensive evaluation of a car and must be stored separately.
+**Assumptions:**
+- The `User` entity contains essential personal and authentication details.
+- A user can act as a seller or a buyer, determined by the `IsSeller` attribute.
+- User data is securely stored, including hashed passwords.
 
-- Each `Rating` is assigned to a specific car, but each car can have multiple ratings.
-- Users cannot submit new ratings; all ratings are derived from existing database records to ensure consistency and prevent manipulation.
+**Cardinality and Relationship:**
+- Each `User` can post multiple `Advertisements`, but each advertisement belongs to one user.
+- Each `User` resides in a single `Location`, but a location can have multiple users.
 
-### User as an Independent Entity
-The `User` entity is independent as it holds essential personal information and authentication details.
+---
 
-- Attributes include:
-  - `UserID`
-  - `Name`
-  - `Email`
-  - `Phone`
-  - `Password` (hashed for security)
-  - `Birthdate`
-  - `Location` (linked to the `Locations` entity)
-  - `IsSeller` (boolean indicating seller status)
-  
-- Users can:
-  - Post multiple advertisements.
-  - Function as either buyers or sellers, based on the `IsSeller` attribute.
+### **Brand**
+**Attributes include:**
+- Maker (Brand Name)
+- Founder
+- CompanyType
+- Headquarters
+- FoundedYear
 
-This structure ensures data privacy, security, and role differentiation.
+**Assumptions:**
+- `Brand` is an independent entity because it holds unique details about manufacturers.
+- Each `Brand` can have multiple car models, but each car model belongs to only one brand.
 
-### User and Location Relationship
-- Each `User` resides in a single city.
-- Each city's geographical coordinates (`Latitude`, `Longitude`) are unique.
+**Cardinality and Relationship:**
+- Each `Brand` can have multiple `Cars`, but each car belongs to only one brand.
 
-### Locations as an Independent Entity
-The `Locations` entity is independent because each city (`CityName`) has unique latitude (`Latitude`) and longitude (`Longitude`). This design ensures accurate geographic data and allows for future enhancements such as filtering advertisements by location.
+---
 
-### Brand as an Independent Entity
-The `Brand` entity is independent and includes attributes such as:
+### **Rating**
+**Attributes include:**
+- ReviewId
+- CarName
+- OverallRating
+- ExteriorRating
+- InteriorRating
+- RideQuality
 
-- `Founder`
-- `CompanyType`
-- `Headquarters`
-- `FoundedYear`
+**Assumptions:**
+- The `Rating` entity stores detailed evaluations of cars.
+- Users cannot directly submit ratings; all ratings are derived from existing data.
 
-Each brand can have multiple car models, but each car model belongs to only one brand. This structure supports future expansions like brand-specific ratings or market region information.
+**Cardinality and Relationship:**
+- Each `Rating` is associated with only one `Car`, but a car can have multiple ratings.
+
+---
+
+### **Advertisement**
+**Attributes include:**
+- CarId
+- UserId
+- AdvertisementId
+- CarTitle (Make + Model)
+- CarSubtitle
+- CarAttentionGrabber
+- FinanceAvailable
+- Discounted
+
+**Assumptions:**
+- `Advertisement` is an independent entity representing a listing in the marketplace.
+- Each advertisement links a user to a car.
+
+**Cardinality and Relationship:**
+- Each `Advertisement` is posted by one `User`, but a user can post multiple advertisements.
+- Each `Advertisement` is for one `Car`, but the same car model may be listed multiple times in different advertisements.
+
+---
+
+### **Location**
+**Attributes include:**
+- CityName
+- Longitude
+- Latitude
+
+**Assumptions:**
+- `Location` is an independent entity that stores city-level geographic data.
+- Each city has unique latitude and longitude values.
+
+**Cardinality and Relationship:**
+- Each `User` is associated with one `Location`, but a location can have multiple users.
+- Locations enable geographic filtering of advertisements.
 
 ---
 
