@@ -66,9 +66,9 @@ Whenever there is a nontrivial dependency A1,A2,...,An→BA_1, A_2, ..., A_n \to
 
 
 
-Entity Car
+####Entity Car
 
-Minimal basis:
+#####Minimal basis:
 Car ID → Make
 Car ID → Model
 Car ID → Car price
@@ -86,16 +86,17 @@ Car ID → Fuel type
 Car ID is a superkey, so this table is in 3NF, also in BCNF.
 
 
-Entity User
-Minimal basis:
+####Entity User
+
+#####Minimal basis:
 User ID→ Car seller
 
 UserID is a superkey, so this table is in 3NF, also in BCNF.
 
 
-Entity Brand
+####Entity Brand
 
-Minimal basis:
+#####Minimal basis:
 Founder →Maker
 Maker →Founder
 Maker →Company Type
@@ -106,9 +107,9 @@ Maker →Founded Year
 Both Founder and Maker are superkey, so this table is in 3NF, also in BCNF.
 
 
-Entity Rating
+####Entity Rating
 
-Minimal basis:
+#####Minimal basis:
 Review ID→ Car_Name
 Review ID→ Overall Rating
 Review ID→ Exterior Rating
@@ -118,9 +119,9 @@ Review ID→ Ride Quality
 Review ID is a superkey, so this table is in 3NF, also in BCNF.
 
 
-Entity Ad
+####Entity Ad
 
-minimal basis:
+#####minimal basis:
 Car ID, User ID → advertisement ID
 advertisement ID → Car ID
 advertisement ID → User ID
