@@ -1,7 +1,9 @@
+# Stage 2
+---
+### Assumption
 
 
-
-
+---
 ### Relational Schema
 
 User(  
@@ -58,6 +60,7 @@ Locations(
     Latitude : Decimal  
 )
 
+---
 ### Normalization
 
 We initialized 5 entities, and when we were ready to normalize them, we found that four of them already met the definition of BCNF, and all entities met the definition of 3NF.
