@@ -26,7 +26,7 @@ The dataset is obtained from Kaggle, provided by Shiivvvaam: [Car Companies in t
 ## Car Rating Dataset
 
 ### Source
-The dataset is obtained from Kaggle, provided by Juhi Bhojani: **Car Rating Dataset**. It contains customer reviews and ratings for different car models.
+The dataset is obtained from Kaggle, provided by Juhi Bhojani: [Car Rating Dataset](https://www.kaggle.com/datasets/juhibhojani/car-rating). It contains customer reviews and ratings for different car models.
 
 ### Format
 - **CSV format**, structured for easy data analysis and visualization.
