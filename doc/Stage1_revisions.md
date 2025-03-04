@@ -1,4 +1,4 @@
-### *Based on feedback from TA, we did some revision of our Stage 1 project proposal*
+#### *Based on feedback from TA, we did some revision of our Stage 1 project proposal:*
 
 # Realness
 ## Global Car Company Dataset
