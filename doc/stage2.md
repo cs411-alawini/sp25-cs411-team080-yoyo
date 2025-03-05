@@ -110,14 +110,14 @@
 
 ---
 
-### **Location**
+### **Locations**
 **Attributes include:**
 - CityName
 - Longitude
 - Latitude
 
 **Assumptions:**
-- `Location` is an independent entity that stores city-level geographic data.
+- `Locations` is an independent entity that stores city-level geographic data.
 - Each city has unique latitude and longitude values.
 
 **Cardinality and Relationship:**
@@ -273,7 +273,7 @@ CarId is **not** a superkey, but CarTitle, CarSubtitle, CarAttentionGrabber, Fin
 
 ---
 
-## Entity Location
+## Entity Locations
 
 ### Minimal Basis:
 - `CityName → Longitude`
