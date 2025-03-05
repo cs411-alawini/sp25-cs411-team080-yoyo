@@ -28,7 +28,7 @@
 **Cardinality and Relationship:**
 - Each `Car` belongs to one `Brand`, but a brand can have multiple cars.
 - A car can have multiple `Ratings`, but each rating is assigned to only one car.
-- A car is listed in at most one `Advertisement`, but multiple advertisements can feature different instances of the same car model.
+- A car is listed in one `Advertisement`, but multiple advertisements can feature different instances of the same car model.
 
 ---
 
