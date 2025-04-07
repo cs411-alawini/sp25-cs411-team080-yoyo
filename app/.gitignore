@@ -63,3 +63,5 @@ pids
 
 # Others
 *.tgz
+
+.env
