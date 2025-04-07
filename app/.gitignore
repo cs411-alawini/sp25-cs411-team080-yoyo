@@ -15,6 +15,7 @@ pnpm-debug.log*
 
 # OS-specific files
 .DS_Store
+../../.DS_Store
 Thumbs.db
 
 # Build output
