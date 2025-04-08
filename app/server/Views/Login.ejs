@@ -44,6 +44,7 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      margin-top: 5px;
     }
 
     .login-box button:hover {
@@ -65,11 +66,100 @@
       <p class="error"><%= error %></p>
     <% } %>
 
-    <form action="#" method="POST">
-      <input type="text" name="username" placeholder="User Name" required>
-      <input type="password" name="password" placeholder="PassWord" required>
-      <button type="submit">Login</button>
+    <form id="loginForm">
+      <input type="text" name="username" id="username" placeholder="User Name" required>
+      <input type="password" name="password" id="password" placeholder="PassWord" required>
+      <button type="button" id="loginBtn">Login</button>
     </form>
+    
+    <button onclick="window.location.pathname = '/register'" type="button">
+      New User? Register Now!
+    </button>
   </div>
+
+  <script>
+    document.getElementById('loginBtn').addEventListener('click', async function() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      
+      const loginData = {
+        source: 'login',
+        Name: username,
+        Password: password
+      };
+
+      try {
+        const response = await fetch('/user', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(loginData)
+        });
+
+        const result = await response.json();
+        
+        if (result.success) {
+          // 登录成功后的处理 - 改为显示Success提示
+          const successMsg = document.createElement('div');
+          successMsg.textContent = 'Success';
+          successMsg.style.position = 'fixed';
+          successMsg.style.top = '20px';
+          successMsg.style.left = '50%';
+          successMsg.style.transform = 'translateX(-50%)';
+          successMsg.style.padding = '10px 20px';
+          successMsg.style.backgroundColor = '#4CAF50';
+          successMsg.style.color = 'white';
+          successMsg.style.borderRadius = '5px';
+          successMsg.style.zIndex = '1000';
+          document.body.appendChild(successMsg);
+          
+          // 0.5秒后移除提示
+          setTimeout(() => {
+            document.body.removeChild(successMsg);
+          }, 500);
+        } else {
+          // 显示Fail提示 - 替代原来的alert
+          const failMsg = document.createElement('div');
+          failMsg.textContent = 'Fail';
+          failMsg.style.position = 'fixed';
+          failMsg.style.top = '20px';
+          failMsg.style.left = '50%';
+          failMsg.style.transform = 'translateX(-50%)';
+          failMsg.style.padding = '10px 20px';
+          failMsg.style.backgroundColor = '#f44336';
+          failMsg.style.color = 'white';
+          failMsg.style.borderRadius = '5px';
+          failMsg.style.zIndex = '1000';
+          document.body.appendChild(failMsg);
+          
+          // 0.5秒后移除提示
+          setTimeout(() => {
+            document.body.removeChild(failMsg);
+          }, 500);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        // 网络错误提示
+        const errorMsg = document.createElement('div');
+        errorMsg.textContent = 'Connection Error';
+        errorMsg.style.position = 'fixed';
+        errorMsg.style.top = '20px';
+        errorMsg.style.left = '50%';
+        errorMsg.style.transform = 'translateX(-50%)';
+        errorMsg.style.padding = '10px 20px';
+        errorMsg.style.backgroundColor = '#f44336';
+        errorMsg.style.color = 'white';
+        errorMsg.style.borderRadius = '5px';
+        errorMsg.style.zIndex = '1000';
+        document.body.appendChild(errorMsg);
+        
+        // 0.5秒后移除提示
+        setTimeout(() => {
+          document.body.removeChild(errorMsg);
+        }, 500);
+      }
+    });
+  </script>
 </body>
 </html>
