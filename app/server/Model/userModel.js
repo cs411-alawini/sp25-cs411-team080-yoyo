@@ -1,29 +1,40 @@
-// models/userModel.js
 const db = require('../DB/db');
 
-// 查全部使用者（debug 用）
-exports.getAll = async () => {
-  const [rows] = await db.query('SELECT * FROM User');
-  return rows;
+const User = {
+  async findUserByNameAndPassword(name, password) {
+    const [users] = await db.query(
+      `SELECT UserId, Name FROM used_car.User 
+       WHERE Name = ? AND Password = ?`,
+      [name, password]
+    );
+    return users;
+  },
+
+  async getMaxUserId() {
+    const [[maxUser]] = await db.query(
+      'SELECT MAX(UserId) AS maxId FROM used_car.User'
+    );
+    return maxUser.maxId;
+  },
+
+  async createUser(userId, userData) {
+    const [result] = await db.query(
+      `INSERT INTO used_car.User 
+       (UserId, IsSeller, Name, Email, BirthDate, Password, Locations, Phone)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        userId,
+        userData.isSeller || false,
+        userData.name,
+        userData.email,
+        userData.birthday || null,
+        userData.password,
+        userData.location || null,
+        userData.phone
+      ]
+    );
+    return result;
+  }
 };
 
-// 建立新使用者
-exports.createUser = async (user) => {
-  const {
-    name,
-    email,
-    password,
-    isSeller,
-    birthDate,
-    locations,
-    phone
-  } = user;
-
-  const [result] = await db.query(
-    `INSERT INTO User (Name, Email, Password, IsSeller, BirthDate, Locations, Phone)
-     VALUES (?, ?, ?, ?, ?, ?, ?)`,
-    [name, email, password, isSeller, birthDate, locations, phone]
-  );
-
-  return result.insertId;
-};
+module.exports = User;

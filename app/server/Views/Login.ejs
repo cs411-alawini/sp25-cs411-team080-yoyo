@@ -72,7 +72,7 @@
       <button type="button" id="loginBtn">Login</button>
     </form>
     
-    <button onclick="window.location.pathname = '/register'" type="button">
+    <button onclick="window.location.pathname = '/user/register'" type="button">
       New User? Register Now!
     </button>
   </div>
@@ -89,7 +89,7 @@
       };
 
       try {
-        const response = await fetch('/user', {
+        const response = await fetch('/user/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
