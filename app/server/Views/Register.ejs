@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .register-box {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      width: 350px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    .birthday-group {
+      display: flex;
+      gap: 10px;
+    }
+    .birthday-group select {
+      flex: 1;
+    }
+    .register-btn {
+      width: 100%;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+    .register-btn:hover {
+      background-color: #45a049;
+    }
+    .login-link {
+      text-align: center;
+      margin-top: 15px;
+    }
+    .login-link a {
+      color: #007bff;
+      text-decoration: none;
+    }
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+    .success-text {
+      color: #4CAF50;
+      text-align: center;
+      margin-top: 15px;
+      height: 20px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .success-text.show {
+      opacity: 1;
+    }
+    .error-text {
+      color: red;
+      text-align: center;
+      margin-top: 10px;
+      height: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="register-box">
+    <h1>Register</h1>
+    <form id="registerForm">
+      
+      <!-- Name -->
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+
+      <!-- Password -->
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+
+      <!-- Is Seller -->
+      <div class="form-group">
+        <label for="isSeller">Are you a seller?</label>
+        <select id="isSeller" name="isSeller" required>
+          <option value="1">Yes</option>
+          <option value="0" selected>No</option>
+        </select>
+      </div>
+
+      <!-- Birthday -->
+      <div class="form-group">
+        <label>Birthday:</label>
+        <div class="birthday-group">
+          <!-- Year -->
+          <select name="birthYear" required>
+            <option value="">Year</option>
+            <% for(let year = 2023; year >= 1900; year--) { %>
+              <option value="<%= year %>"><%= year %></option>
+            <% } %>
+          </select>
+          <!-- Month -->
+          <select name="birthMonth" required>
+            <option value="">Month</option>
+            <% const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; %>
+            <% months.forEach((month, index) => { %>
+              <option value="<%= index + 1 %>"><%= month %></option>
+            <% }); %>
+          </select>
+          <!-- Day -->
+          <select name="birthDay" required>
+            <option value="">Day</option>
+            <% for(let day = 1; day <= 31; day++) { %>
+              <option value="<%= day %>"><%= day %></option>
+            <% } %>
+          </select>
+        </div>
+      </div>
+
+      <!-- Location -->
+      <div class="form-group">
+        <label for="location">Location:</label>
+        <select id="location" name="location" required>
+          <option value="">Select Location</option>
+          <option value="Azatan">Azatan</option>
+          <option value="Bjni">Bjni</option>
+        </select>
+      </div>
+
+      <!-- Phone -->
+      <div class="form-group">
+        <label for="phone">Phone:</label>
+        <input type="tel" id="phone" name="phone" required>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="register-btn">Register</button>
+      
+      <!-- 成功消息显示在这里 -->
+      <div class="success-text" id="successText"></div>
+      <!-- 错误消息显示 -->
+      <div class="error-text" id="errorText"></div>
+    </form>
+    
+    <!-- 登录链接 -->
+    <div class="login-link">
+      Already have an account? <a href="/login">Login here</a>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('registerForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const form = e.target;
+      const successText = document.getElementById('successText');
+      const errorText = document.getElementById('errorText');
+      
+      // 清除之前的状态
+      successText.textContent = '';
+      successText.classList.remove('show');
+      errorText.textContent = '';
+      
+      // 1. 收集并处理表单数据
+      const formData = {
+        source:'register',
+        name: form.name.value,
+        email: form.email.value,
+        password: form.password.value,
+        isSeller: parseInt(form.isSeller.value), // 直接获取0或1
+        birthday: `${form.birthYear.value}-${String(form.birthMonth.value).padStart(2, '0')}-${String(form.birthDay.value).padStart(2, '0')}`,
+        location: form.location.value,
+        phone: form.phone.value
+      };
+
+      // 2. 验证必填字段
+      if (!formData.name || !formData.email || !formData.password || 
+          !form.birthYear.value || !form.birthMonth.value || !form.birthDay.value) {
+        errorText.textContent = 'Please fill all required fields';
+        return;
+      }
+
+      // 3. 发送到服务器
+      try {
+        const response = await fetch('/user/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData)
+        });
+
+        const result = await response.json();
+        
+        if (response.ok) {
+          // 注册成功
+          successText.textContent = 'Registration successful! Redirecting...';
+          successText.classList.add('show');
+          
+          // 0.5秒后跳转
+          setTimeout(() => {
+            window.location.href = '/login';
+          }, 500);
+        } else {
+          // 显示服务器返回的错误
+          errorText.textContent = result.message || 'Registration failed';
+        }
+      } catch (err) {
+        errorText.textContent = 'Network error, please try again';
+        console.error('Registration error:', err);
+      }
+    });
+  </script>
+</body>
+</html>

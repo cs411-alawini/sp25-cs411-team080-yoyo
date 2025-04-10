@@ -2,6 +2,7 @@ const express = require('express');
 const userRoutes = require('./routes/userRoute'); 
 const carRoutes = require('./routes/carRoute');
 const carController = require('./Controller/carController');
+const userController = require('./Controller/userController');
 const path = require('path');
 
 const app = express(); // create an express application
