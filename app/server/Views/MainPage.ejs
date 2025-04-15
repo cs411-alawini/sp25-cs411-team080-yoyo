@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+  <script src="/bootstrap/js/bootstrap.bundle.min.js" defer></script>
   <meta charset="UTF-8">
   <title>Used Car App</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -200,7 +202,7 @@
 
           if (result.loggedIn) {
             authSection.innerHTML = `
-            <a href="/user/logout" class="button">Sign Out</a>`;
+            <a href="/user/logout" class="btn btn-danger">Sign Out</a>`;
           } else {
             authSection.innerHTML = `
               <a href="/user/login" class="login-button">Login/Register</a>`;

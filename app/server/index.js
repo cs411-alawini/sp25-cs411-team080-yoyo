@@ -8,6 +8,7 @@ const app = express(); // create an express application
 
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true })); 
+app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist'));
 app.use(session({
   secret : "thisismysecret",
   resave : false,
