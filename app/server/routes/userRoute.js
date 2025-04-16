@@ -19,12 +19,10 @@ router.post('/register', userController.registerUser);
 //Logout
 router.get('/logout',userController.logoutUser);
 
-router.get('/profile', (req,res)=>{
-  if (!req.session.user) {
-    return res.redirect('/login');
-  }
+router.get('/profile', userController.profilePage);
 
-  res.render('UserDashBoard', { user: req.session.user });
-})
+router.get('/:id', userController.getSingleUser);
+
+
 
 module.exports = router;
