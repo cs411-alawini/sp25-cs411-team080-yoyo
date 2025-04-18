@@ -21,7 +21,12 @@ router.get('/logout',userController.logoutUser);
 
 router.get('/profile', userController.profilePage);
 
+router.get('/userInfo', userController.userProfile);
+
 router.get('/:id', userController.getSingleUser);
+
+router.post('/:id', userController.updateUser);
+
 
 
 

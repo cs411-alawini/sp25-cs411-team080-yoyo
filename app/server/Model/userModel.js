@@ -42,6 +42,13 @@ const User = {
       ]
     );
     return result;
+  },
+
+   async updateUserInfo (userId, email, phone, location){
+    return db.query(
+      `UPDATE used_car.User SET Email = ?, Phone = ?, Locations = ? WHERE UserId = ?`,
+      [email, phone, location, userId]
+    );
   }
 };
 

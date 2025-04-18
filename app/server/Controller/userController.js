@@ -1,13 +1,13 @@
-const User = require('../Model/userModel');
+const userModel = require('../Model/userModel');
 const carModel = require('../Model/carModel');
-const axios = require('axios');
+const adModel = require('../Model/AdModle')
 
 const userController = {
   async loginUser(req, res) {
     const { Name, Password } = req.body;
 
     try {
-      const users = await User.findUserByNameAndPassword(Name, Password);
+      const users = await userModel.findUserByNameAndPassword(Name, Password);
 
       if (users.length === 0) {
         return res.status(401).json({
@@ -40,10 +40,10 @@ const userController = {
     const userData = req.body;
 
     try {
-      const maxUserId = await User.getMaxUserId();
+      const maxUserId = await userModel.getMaxUserId();
       const newUserId = maxUserId ? maxUserId + 1 : 1;
 
-      const result = await User.createUser(newUserId, userData);
+      const result = await userModel.createUser(newUserId, userData);
 
       return res.status(200).json({
         success: true,
@@ -66,7 +66,7 @@ const userController = {
   logoutUser(req, res) {
     req.session.destroy(err => {
       if (err) {
-        console.error('Logout Error:', err);
+        
         return res.status(500).json({
           success: false,
           error: 'Logout failed'
@@ -83,8 +83,7 @@ const userController = {
     try {
       const id = req.params.id;
 
-      console.log(req.params)
-      const users = await User.getUserByID(id);
+      const users = await userModel.getUserByID(id);
 
       if (users.length === 0) {
         return res.status(404).json({ message: 'User not found' });
@@ -100,21 +99,63 @@ const userController = {
 
   async profilePage(req, res) {
       const user = req.session.user;
-      console.log(user)
+     
       if (!user) return res.redirect('/login');
 
       try {
-        const cars = await carModel.getCarsByUserId(user.id);
+        const car = await carModel.getCarsByUserId(user.id);
+        const [ads] = await adModel.getByUserId(user.id);
+
         res.render('UserDashBoard', {
           user,
-          cars
+          car,
+          ads
         });
       } catch (err) {
         console.error(' Failed to load profile:', err);
         res.status(500).send('Server error');
       }
+    },
+
+    async userProfile(req,res){
+      const user = req.session.user;
+
+      if (!user) return res.redirect('/login');
+
+      try {
+        const userDetail = await userModel.getUserByID(user.id)
+
+        res.render('userinfo', {
+          userDetail
+        });
+      } catch (err) {
+        console.error(' Failed to load user Info:', err);
+        res.status(500).send('Server error');
+      }
+    },
+
+    async updateUser(req, res) {
+      const { email, phone, location } = req.body;
+      const user = req.session.user;
+    
+      if (!user) return res.redirect('/login');
+    
+      try {
+        await userModel.updateUserInfo(user.id, email, phone, location);
+        const car = await carModel.getCarsByUserId(user.id);
+        const [ads] = await adModel.getByUserId(user.id);
+
+        res.render('UserDashBoard', {
+          user,
+          car,
+          ads
+        });
+      } catch (err) {
+        console.error('Update error:', err);
+        res.status(500).json({ message: 'Server error' });
+      }
     }
 
-};
+  };
 
 module.exports = userController;

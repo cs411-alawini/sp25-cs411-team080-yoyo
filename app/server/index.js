@@ -1,6 +1,7 @@
 const express = require('express');
 const userRoutes = require('./routes/userRoute'); 
 const carRoutes = require('./routes/carRoute');
+const adRoutes = require('./routes/AdRoute');
 const path = require('path');
 const session = require('express-session');
 
@@ -32,6 +33,7 @@ app.set('views', path.join(__dirname, './Views'));
 
 app.use('/user', userRoutes); 
 app.use('/car', carRoutes);
+app.use('/advertisement', adRoutes);
 
 app.get('/', (req, res) => {
   res.render('MainPage'); 

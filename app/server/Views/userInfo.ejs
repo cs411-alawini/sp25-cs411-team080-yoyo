@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>User Info</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #eef2f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .userinfo-box {
+      background: white;
+      padding: 40px 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+      color: #333;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      font-size: 15px;
+    }
+
+    .update-btn {
+      width: 100%;
+      padding: 12px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.2s ease-in-out;
+    }
+
+    .update-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .success-msg, .error-msg {
+      margin-top: 10px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .success-msg {
+      color: green;
+    }
+
+    .error-msg {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <div class="userinfo-box">
+    <h2>Update Your Info</h2>
+    <form action="/user/<%= userDetail[0].UserId %>" method="POST">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" value="<%= userDetail[0].Email %>" required />
+
+      <label for="phone">Phone:</label>
+      <input type="tel" id="phone" name="phone" value="<%= userDetail[0].Phone %>" required />
+
+      <label for="location">Location:</label>
+      <select name="location" id="location" required>
+        <option value="Azatan" <%= userDetail[0].Location === 'Azatan' ? 'selected' : '' %>>Azatan</option>
+        <option value="Bjni" <%= userDetail[0].Location === 'Bjni' ? 'selected' : '' %>>Bjni</option>
+      </select>
+
+      <button type="submit" class="update-btn">Update</button>
+    </form>
+  </div>
+</body>
+</html>
