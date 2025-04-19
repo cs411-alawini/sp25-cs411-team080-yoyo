@@ -117,7 +117,10 @@
           // 0.5秒后移除提示
           setTimeout(() => {
             document.body.removeChild(successMsg);
+             window.location.href = '/';
           }, 500);
+
+
         } else {
           // 显示Fail提示 - 替代原来的alert
           const failMsg = document.createElement('div');

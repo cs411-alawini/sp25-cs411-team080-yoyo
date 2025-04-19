@@ -17,6 +17,14 @@ const User = {
     return maxUser.maxId;
   },
 
+  async getUserByID(id) {
+    const [users] = await db.query(
+      `SELECT * FROM used_car.User WHERE UserId = ?`,
+      [id]
+    );
+    return users;
+  },
+
   async createUser(userId, userData) {
     const [result] = await db.query(
       `INSERT INTO used_car.User 
@@ -34,6 +42,13 @@ const User = {
       ]
     );
     return result;
+  },
+
+   async updateUserInfo (userId, email, phone, location){
+    return db.query(
+      `UPDATE used_car.User SET Email = ?, Phone = ?, Locations = ? WHERE UserId = ?`,
+      [email, phone, location, userId]
+    );
   }
 };
 
