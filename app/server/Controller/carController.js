@@ -24,4 +24,17 @@ exports.getAllCars = async (req, res) => {
     console.error('Insert failed:', err);
     res.status(500).send('Insert error');
   }
-}
+};
+
+exports.getCarDetail = async (req, res) => {
+  const carId = req.params.id;
+  try {
+    const car = await carModel.getCarById(carId);
+    if (!car) return res.status(404).send('Car not found');
+    res.render('CarDetail', { car }); // pass car to EJS
+  } catch (err) {
+    console.error('Error getting car detail:', err);
+    res.status(500).send('Server Error');
+  }
+};
+
