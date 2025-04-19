@@ -40,3 +40,8 @@ exports.getCarsByUserId = async(userId) => {
   console.log(cars)
   return cars;
 };
+
+exports.getCarById = async (carId) => {
+  const [rows] = await db.query('SELECT * FROM Car WHERE CarId = ?', [carId]);
+  return rows[0]; // Return single car object
+};
