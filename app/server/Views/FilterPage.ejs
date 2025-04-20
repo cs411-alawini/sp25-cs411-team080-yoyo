@@ -1,0 +1,30 @@
+<!-- Views/FilterPage.ejs -->
+<h2>Filter Cars</h2>
+<form method="POST" action="/filter/results">
+  <label>Make:</label>
+  <input type="text" name="make" />
+
+  <label>Model:</label>
+  <input type="text" name="model" />
+
+  <label>Min Price:</label>
+  <input type="number" name="minPrice" />
+
+  <label>Max Price:</label>
+  <input type="number" name="maxPrice" />
+
+  <label>Year Range:</label>
+  <input type="number" name="minYear" placeholder="From" />
+  <input type="number" name="maxYear" placeholder="To" />
+
+  <label>Body Type:</label>
+  <input type="text" name="bodyType" />
+
+  <label>Fuel Type:</label>
+  <input type="text" name="fuelType" />
+
+  <label>Transmission Type:</label>
+  <input type="text" name="transmissionType" />
+
+  <button type="submit">Search</button>
+</form>
