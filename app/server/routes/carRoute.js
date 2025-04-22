@@ -6,6 +6,10 @@ router.get('/', carController.getAllCars);
 
 router.post('/', carController.handleCarForm);
 
-router.get('/:id', carController.getCarDetail);
+
+
+router.get('/:id', carController.getCarById);
+
+
 
 module.exports = router;

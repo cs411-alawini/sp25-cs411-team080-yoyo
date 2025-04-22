@@ -256,11 +256,11 @@
         card.className = 'car-card';
 
         card.innerHTML = `
+
+          <h3>${car.CarTitle}</h3>
           <a href="/car/${car.CarId}" style="text-decoration: none; color: inherit;">
-            <h3>${car.CarTitle}</h3>
-            <p><strong>Price:</strong> $${Number(car.CarPrice).toLocaleString()}</p>
-            <p><strong>Year:</strong> ${car.ManufactureYear || 'N/A'}</p>
-          </a>
+          <p><strong>Price:</strong> $${Number(car.CarPrice).toLocaleString()}</p>
+          <p><strong>Year:</strong> ${car.ManufactureYear || 'N/A'}</p>
         `;
 
         container.appendChild(card);
