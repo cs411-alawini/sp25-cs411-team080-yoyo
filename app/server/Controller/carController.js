@@ -25,6 +25,7 @@ exports.getAllCars = async (req, res) => {
     console.error('Insert failed:', err);
     res.status(500).send('Insert error');
   }
+
 }
 
 
@@ -48,6 +49,8 @@ exports.getCarById = (req, res) => {
     console.error('Error:', err);
     res.status(500).render('error', { message: 'Server error' });
     console.log('Server error')
-  }
+
 };
+
+
 

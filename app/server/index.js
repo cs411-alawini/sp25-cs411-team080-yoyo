@@ -68,3 +68,5 @@ app.listen(3000, ()=>{
     console.log('listen on port 3000')
 })
 
+const filterRoutes = require('./routes/filter');
+app.use('/filter', filterRoutes);
