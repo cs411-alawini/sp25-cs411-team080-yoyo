@@ -45,3 +45,15 @@ exports.getCarById = async (carId) => {
   const [rows] = await db.query('SELECT * FROM Car WHERE CarId = ?', [carId]);
   return rows[0]; // Return single car object
 };
+
+// Get average price by year for a given model
+exports.getPriceTrendByModel = async (makeName, modelName) => {
+  const [rows] = await db.query(`
+    SELECT ManufactureYear, AVG(CarPrice) AS AvgPrice
+    FROM Car
+    WHERE Make = ? AND Model = ?
+    GROUP BY ManufactureYear
+    ORDER BY ManufactureYear
+  `, [makeName, modelName]);
+  return rows;
+};

@@ -28,30 +28,25 @@ exports.getAllCars = async (req, res) => {
 
 }
 
-
-// controllers/carController.js
-exports.getCarById = (req, res) => {
+// ✅ 3. Render the carDetail page and trend chart
+exports.getCarById = async (req, res) => {
   try {
     const carId = parseInt(req.params.id);
-    const car = cars.find(c => c.CarId === carId);
     
-    if (car) {
-      // 渲染模板并传递格式化后的数据
-      res.render('carDetail', { 
-        car
-        
-      });
-    } else {
-      res.status(404).render('error', { message: 'Car not found' });
-      console.log('cannot found')
+    const car = await carModel.getCarById(carId);
+    if (!car) {
+      return res.status(404).render('error', { message: 'Car not found' });
     }
+
+    const trend = await carModel.getPriceTrendByModel(car.Make, car.Model); // 🆕 Trend by Make
+
+    res.render('carDetail', {
+      car,
+      trend
+    });
   } catch (err) {
-    console.error('Error:', err);
+    console.error('Error fetching car detail:', err);
     res.status(500).render('error', { message: 'Server error' });
     console.log('Server error')
-
   }
 };
-
-
-
