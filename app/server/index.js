@@ -2,6 +2,7 @@ const express = require('express');
 const userRoutes = require('./routes/userRoute'); 
 const carRoutes = require('./routes/carRoute');
 const adRoutes = require('./routes/AdRoute');
+const alertRoutes = require('./routes/alertRoute')
 const ratingRoutes = require('./routes/ratingRoute');
 const path = require('path');
 const session = require('express-session');
@@ -32,6 +33,7 @@ app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, '..', 'public')));
 app.set('views', path.join(__dirname, './Views'));
 
+app.use('/alert',alertRoutes);
 app.use('/user', userRoutes); 
 app.use('/car', carRoutes);
 app.use('/advertisement', adRoutes);
@@ -57,12 +59,6 @@ app.get('/session', (req, res) => {
 app.get('/login', (req, res) => {
   res.render('Login'); 
 });
-
-
-
-
-
-
 
 app.listen(3000, ()=>{
     console.log('listen on port 3000')
