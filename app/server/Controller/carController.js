@@ -47,5 +47,6 @@ exports.getCarById = async (req, res) => {
   } catch (err) {
     console.error('Error fetching car detail:', err);
     res.status(500).render('error', { message: 'Server error' });
+    console.log('Server error')
   }
 };

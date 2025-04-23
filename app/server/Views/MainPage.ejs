@@ -200,7 +200,6 @@
       }
 
       async function checkSessionAndRenderAuth() {
-        console.log('Here')
         const authSection = document.getElementById('authSection');
         try {
           const res = await fetch('/session');
@@ -222,23 +221,26 @@
         }
       }
 
-
-      // Input 搜尋
       input.addEventListener('input', () => {
         const keyword = input.value.trim().toLowerCase();
         filterAndRender(keyword);
       });
 
-      // 點擊 tag button 搜尋
       tags.forEach(tag => {
         tag.addEventListener('click', () => {
-          const keyword = tag.innerText.replace(/[^a-zA-Z0-9]/g, '').toLowerCase(); // 去 emoji
+          const keyword = tag.innerText.replace(/[^a-zA-Z0-9]/g, '').toLowerCase(); 
           input.value = keyword;
           filterAndRender(keyword);
         });
       });
 
       checkSessionAndRenderAuth();
+
+      const res = await fetch('/alert');
+      const alerts = await res.json();
+      if (alerts.length > 0) {
+        alert(` You have ${alerts.length} new matching cars!`);
+      }
     });
 
     function filterAndRender(keyword) {

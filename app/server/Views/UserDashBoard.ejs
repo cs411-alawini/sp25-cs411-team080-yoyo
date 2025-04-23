@@ -47,85 +47,119 @@
         </ul>
       </div>
 
-      <!-- Main -->
+      <!-- Main Content -->
       <div class="col-md-10 p-4">
-        <h2 class="mb-4">Welcome, <%= user.name %> 👋</h2>
-
+        <h2 class="mb-4">Welcome, <%= user.name %></h2>
         <div class="row g-4">
-          <!-- Your Cars -->
-          <div class="col-md-4">
-            <div class="card p-3">
-              <h5 class="section-title">🚗 Your Cars</h5>
-              <ul class="list-group">
-                <% if (car.length === 0) { %>
-                  <li class="list-group-item">You have no cars yet.</li>
-                <% } else { %>
-                  <% car.forEach(car => { %>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                      <%= car.Make %> <%= car.Model %>
-                      <a href="/advertisement/<%= car.CarId %>" class="btn btn-sm btn-outline-primary">Advertise</a>
-                    </li>
-                  <% }) %>
-                <% } %>
-              </ul>
+          <div class="row g-4">
+            <!-- Section 1: Your Cars -->
+            <div class="col-md-3">
+              <div class="card p-3 h-100">
+                <h5 class="section-title">Your Cars</h5>
+                <ul class="list-group">
+                  <% if (car.length === 0) { %>
+                    <li class="list-group-item">You have no cars yet.</li>
+                  <% } else { %>
+                    <% car.forEach(car => { %>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="/car/<%=car.CarId%>" style="text-decoration: none; color: inherit;"><%= car.Make %> <%= car.Model %> </a>
+                        <a href="/advertisement/<%= car.CarId %>" class="btn btn-sm btn-outline-primary">Advertise</a>
+                      </li>
+                    <% }) %>
+                  <% } %>
+                </ul>
+              </div>
+            </div>
+          
+            <!-- Section 2: Matched Cars -->
+            <div class="col-md-3">
+              <div class="card p-3 h-100">
+                <h5>Cars Matching Your Search</h5>
+                <ul id="matched-cars-list" class="list-group"></ul>
+              </div>
+            </div>
+          
+            <!-- Section 3: Your Car Ads -->
+            <div class="col-md-3">
+              <div class="card p-3 h-100">
+                <h5 class="section-title">Your Car Ads</h5>
+                <ul class="list-group">
+                  <% if (ads.length === 0) { %>
+                    <li class="list-group-item">No ads available.</li>
+                  <% } else { %>
+                    <% ads.forEach(ad => { %>
+                      <li class="list-group-item">
+                        <div><strong>Title:</strong> <%= ad.CarAttentionGrabber || 'N/A' %></div>
+                        <div class="mt-2 text-end">
+                          <button class="btn btn-sm btn-success">View Details</button>
+                        </div>
+                      </li>
+                    <% }) %>
+                  <% } %>
+                </ul>
+              </div>
+            </div>
+          
+            <!-- Section 4: List a Car -->
+            <div class="col-md-3">
+              <div class="card p-3 h-100">
+                <h5 class="section-title">📝 List a Car</h5>
+                <form action="/car" method="POST">
+                  <input class="form-control mb-2" type="text" name="CarTitle" placeholder="Car title" required>
+                  <select class="form-select mb-2" name="Make" required>
+                    <option disabled selected>Select Brand</option>
+                    <option value="Toyota">Toyota</option>
+                    <option value="BMW">BMW</option>
+                    <option value="Volvo">Volvo</option>
+                  </select>
+                  <input class="form-control mb-2" type="text" name="Model" placeholder="Car model" required>
+                  <input class="form-control mb-2" type="number" name="CarPrice" placeholder="Price" required>
+                  <input class="form-control mb-2" type="number" name="ManufactureYear" placeholder="Year" required>
+                  <input class="form-control mb-2" type="number" name="Mileage" placeholder="Mileage" required>
+                  <input class="form-control mb-2" type="number" step="0.01" name="EngineVolume" placeholder="Engine Volume (L)">
+                  <input class="form-control mb-2" type="number" step="0.01" name="EngineSize" placeholder="Engine Size (L)">
+                  <input class="form-control mb-2" type="text" name="TransmissionType" placeholder="Transmission Type">
+                  <input class="form-control mb-2" type="text" name="FuelType" placeholder="Fuel Type">
+                  <input class="form-control mb-2" type="number" name="TotalPreviousOwners" placeholder="Previous Owners">
+                  <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" name="agree" required>
+                    <label class="form-check-label">I accept the <a href="#">terms</a></label>
+                  </div>
+                  <button class="btn btn-primary w-100">Submit</button>
+                </form>
+              </div>
             </div>
           </div>
 
-          <!-- Your Ads -->
-          <div class="col-md-4">
-            <div class="card p-3">
-              <h5 class="section-title">📣 Your Car Ads</h5>
-              <ul class="list-group">
-                <% if (ads.length === 0) { %>
-                  <li class="list-group-item">No ads available.</li>
-                <% } else { %>
-                  <% ads.forEach(ad => { %>
-                    <li class="list-group-item">
-                      <div><strong>Car:</strong> <%= car.Make %> <%= car.Model %></div>
-                      <div><strong>Title:</strong> <%= ad.CarAttentionGrabber || 'N/A' %></div>
-                      <div class="mt-2 text-end">
-                        <button class="btn btn-sm btn-success">View Details</button>
-                      </div>
-                    </li>
-                  <% }) %>
-                <% } %>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Sell Form -->
-          <div class="col-md-4">
-            <div class="card p-3">
-              <h5 class="section-title">📝 List a Car</h5>
-              <form action="/car" method="POST">
-                <input class="form-control mb-2" type="text" name="CarTitle" placeholder="Car title" required>
-                <select class="form-select mb-2" name="Make" required>
-                  <option disabled selected>Select Brand</option>
-                  <option value="Toyota">Toyota</option>
-                  <option value="BMW">BMW</option>
-                  <option value="Volvo">Volvo</option>
-                </select>
-                <input class="form-control mb-2" type="text" name="Model" placeholder="Car model" required>
-                <input class="form-control mb-2" type="number" name="CarPrice" placeholder="Price" required>
-                <input class="form-control mb-2" type="number" name="ManufactureYear" placeholder="Year" required>
-                <input class="form-control mb-2" type="number" name="Mileage" placeholder="Mileage" required>
-                <input class="form-control mb-2" type="number" step="0.01" name="EngineVolume" placeholder="Engine Volume (L)">
-                <input class="form-control mb-2" type="number" step="0.01" name="EngineSize" placeholder="Engine Size (L)">
-                <input class="form-control mb-2" type="text" name="TransmissionType" placeholder="Transmission Type">
-                <input class="form-control mb-2" type="text" name="FuelType" placeholder="Fuel Type">
-                <input class="form-control mb-2" type="number" name="TotalPreviousOwners" placeholder="Previous Owners">
-                <div class="form-check mb-3">
-                  <input class="form-check-input" type="checkbox" name="agree" required>
-                  <label class="form-check-label">I accept the <a href="#">terms</a></label>
-                </div>
-                <button class="btn btn-primary w-100">Submit</button>
-              </form>
-            </div>
-          </div>
-        </div>
-
-      </div> <!-- end main col -->
+        </div> <!-- row -->
+      </div> <!-- main content -->
     </div>
   </div>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', async () => {
+      const res = await fetch('/alert/all');
+      const alerts = await res.json();
+      const list = document.getElementById('matched-cars-list');
+
+      if (alerts.length > 0) {
+        alerts.forEach(car => {
+          const li = document.createElement('li');
+          li.className = 'list-group-item d-flex justify-content-between align-items-center';
+          li.innerHTML = `
+            <strong>
+              <a href="/car/${car.CarId}" style="text-decoration: none; color: inherit;">
+                ${car.Make} ${car.Model}
+              </a>
+            </strong> ${car.CarTitle}
+            <span class="badge bg-primary rounded-pill">$${car.CarPrice}</span>
+          `;
+          list.appendChild(li);
+        });
+      } else {
+        list.innerHTML = '<li class="list-group-item">No new matches at the moment.</li>';
+      }
+    });
+  </script>
 </body>
 </html>
