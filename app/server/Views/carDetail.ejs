@@ -2,32 +2,304 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title><%= car.CarTitle %> - Details</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= car.CarTitle %> Details</title>
   <style>
-    body { font-family: 'Segoe UI'; margin: 40px; background: #f9f9f9; }
-    .card {
-      max-width: 600px;
-      margin: auto;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      padding: 30px;
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+      color: #333;
     }
-    .card h1 { margin-top: 0; color: #007bff; }
-    .card p { margin: 10px 0; }
-    .back { margin-top: 20px; display: inline-block; color: #007bff; }
+    .container {
+      display: flex;
+      max-width: 1200px;
+      margin: 0 auto;
+      gap: 30px;
+    }
+    .car-info {
+      flex: 2;
+    }
+    .rating-section {
+      flex: 1;
+      position: sticky;
+      top: 20px;
+      align-self: flex-start;
+    }
+    .car-title {
+      margin-bottom: 5px;
+      color: #2c3e50;
+    }
+    .car-subtitle {
+      color: #7f8c8d;
+      margin-top: 0;
+      font-style: italic;
+    }
+    .car-details {
+      background-color: #f9f9f9;
+      padding: 25px;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+    .car-details p {
+      margin: 12px 0;
+    }
+    .rating-container {
+      background-color: #f8f9fa;
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .rating-header {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-align: center;
+      color: #2c3e50;
+    }
+    .rating-item {
+      margin-bottom: 25px;
+    }
+    .rating-title {
+      font-weight: bold;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .rating-stars {
+      display: flex;
+      justify-content: space-between;
+      font-size: 24px;
+    }
+    .star {
+      color: #ddd;
+      cursor: pointer;
+      transition: all 0.2s;
+      flex: 1;
+      text-align: center;
+    }
+    .star:hover,
+    .star.active {
+      color: #ffcc00;
+      transform: scale(1.2);
+    }
+    .rating-result {
+      text-align: right;
+      font-size: 14px;
+      color: #7f8c8d;
+      margin-top: 5px;
+    }
+    .overall-rating {
+      background-color: #e9f7fe;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 30px;
+    }
+    .submit-rating {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background-color 0.3s;
+    }
+    .submit-rating:hover {
+      background-color: #45a049;
+    }
+    .submit-rating:disabled {
+      background-color: #cccccc;
+      cursor: not-allowed;
+    }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1><%= car.CarTitle %></h1>
-    <p><strong>Price:</strong> $<%= car.CarPrice.toLocaleString() %></p>
-    <p><strong>Year:</strong> <%= car.ManufactureYear %></p>
-    <p><strong>Type:</strong> <%= car.BodyType %></p>
-    <p><strong>Engine:</strong> <%= car.EngineVolume %> L</p>
-    <p><strong>Transmission:</strong> <%= car.TransmissionType %></p>
-    <p><strong>Mileage:</strong> <%= car.Mileage %> km</p>
-    <a href="/" class="back">← Back to Listings</a>
+  <div class="container">
+    <!-- 左侧车辆信息 -->
+    <div class="car-info">
+      <h1 class="car-title"><%= car.CarTitle %></h1>
+      <p class="car-subtitle"><%= car.CarSubTitle %></p>
+
+      <div class="car-details">
+        <p><strong>Price:</strong> $<%= car.CarPrice.toLocaleString() %></p>
+        <p><strong>Year:</strong> <%= car.ManufactureYear %></p>
+        <p><strong>Body Type:</strong> <%= car.BodyType.charAt(0).toUpperCase() + car.BodyType.slice(1) %></p>
+        <p><strong>Mileage:</strong> <%= car.Mileage.toLocaleString() %> miles</p>
+        <p><strong>Engine:</strong> <%= car.EngineVolume %>L <%= car.EngineVolume >= 3.0 ? 'V8' : 'V6' %></p>
+        <p><strong>Transmission:</strong> <%= car.TransmissionType.charAt(0).toUpperCase() + car.TransmissionType.slice(1) %></p>
+        <p><strong>Fuel Type:</strong> <%= car.FuelType.charAt(0).toUpperCase() + car.FuelType.slice(1) %></p>
+        <p><strong>Previous Owners:</strong> <%= car.TotalPreviousOwners %></p>
+        <% if (car.UserId) { %>
+          <p><strong>Listed by:</strong> User #<%= car.UserId %></p>
+        <% } %>
+      </div>
+    </div>
+
+    <!-- 右侧评分栏 -->
+    <div class="rating-section">
+      <div class="rating-container">
+        <div class="rating-header">Rate This Car</div>
+        
+        <!-- 外观评级 -->
+        <div class="rating-item">
+          <div class="rating-title">
+            <span>Exterior</span>
+            <span id="exteriorResult">(Not rated)</span>
+          </div>
+          <div class="rating-stars" id="exteriorRating">
+            <% for(let i=1; i<=5; i++) { %>
+              <span class="star" data-rating="<%= i %>" data-category="exterior">★</span>
+            <% } %>
+          </div>
+        </div>
+
+        <!-- 内部评级 -->
+        <div class="rating-item">
+          <div class="rating-title">
+            <span>Interior</span>
+            <span id="interiorResult">(Not rated)</span>
+          </div>
+          <div class="rating-stars" id="interiorRating">
+            <% for(let i=1; i<=5; i++) { %>
+              <span class="star" data-rating="<%= i %>" data-category="interior">★</span>
+            <% } %>
+          </div>
+        </div>
+
+        <!-- 骑行质量 -->
+        <div class="rating-item">
+          <div class="rating-title">
+            <span>Ride Quality</span>
+            <span id="rideQualityResult">(Not rated)</span>
+          </div>
+          <div class="rating-stars" id="rideQualityRating">
+            <% for(let i=1; i<=5; i++) { %>
+              <span class="star" data-rating="<%= i %>" data-category="rideQuality">★</span>
+            <% } %>
+          </div>
+        </div>
+
+        <!-- 总体评分 -->
+        <div class="rating-item overall-rating">
+          <div class="rating-title">
+            <span>Overall</span>
+            <span id="overallResult">(Not rated)</span>
+          </div>
+          <div class="rating-stars" id="overallRating">
+            <% for(let i=1; i<=5; i++) { %>
+              <span class="star" data-rating="<%= i %>" data-category="overall">★</span>
+            <% } %>
+          </div>
+        </div>
+
+        <!-- 提交按钮 -->
+        <button id="submitRatings" class="submit-rating" disabled>Submit Ratings</button>
+      </div>
+    </div>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const ratingCategories = {
+        exterior: { element: null, result: null, value: null },
+        interior: { element: null, result: null, value: null },
+        rideQuality: { element: null, result: null, value: null },
+        overall: { element: null, result: null, value: null }
+      };
+      
+      const submitButton = document.getElementById('submitRatings');
+      
+      // 初始化每个评分组件
+      Object.keys(ratingCategories).forEach(category => {
+        ratingCategories[category].element = document.getElementById(`${category}Rating`);
+        ratingCategories[category].result = document.getElementById(`${category}Result`);
+        
+        const stars = ratingCategories[category].element.querySelectorAll('.star');
+        
+        stars.forEach(star => {
+          star.addEventListener('click', function() {
+            const rating = parseInt(this.getAttribute('data-rating'));
+            ratingCategories[category].value = rating;
+            
+            // 更新星星样式
+            stars.forEach((s, index) => {
+              if (index < rating) {
+                s.classList.add('active');
+              } else {
+                s.classList.remove('active');
+              }
+            });
+            
+            // 显示评分结果
+            ratingCategories[category].result.textContent = `${rating}/5`;
+            
+            // 检查是否有至少一个评分，启用提交按钮
+            checkRatings();
+          });
+          
+          // 鼠标悬停效果
+          star.addEventListener('mouseover', function() {
+            const hoverRating = parseInt(this.getAttribute('data-rating'));
+            stars.forEach((s, index) => {
+              s.style.color = index < hoverRating ? '#ffcc00' : '#ddd';
+            });
+          });
+          
+          star.addEventListener('mouseout', function() {
+            const currentRating = ratingCategories[category].value;
+            stars.forEach((s, index) => {
+              s.style.color = (currentRating !== null && index < currentRating) ? '#ffcc00' : '#ddd';
+            });
+          });
+        });
+      });
+
+      // 检查是否有至少一个评分
+      function checkRatings() {
+        const hasRating = Object.values(ratingCategories).some(
+          category => category.value !== null
+        );
+        submitButton.disabled = !hasRating;
+      }
+
+      // 提交所有评分
+      submitButton.addEventListener('click', function() {
+        const ratingsData = {
+          carId: '<%= car.CarId %>',
+          ratings: {
+            CarTitle: '<%= car.CarTitle %>' ,
+            Price: '<%= car.CarPrice %>' ,
+            ExteriorRating: ratingCategories.exterior.value,
+            InteriorRating: ratingCategories.interior.value,
+            RideQuality: ratingCategories.rideQuality.value,
+            OverallRating: ratingCategories.overall.value
+          },
+          timestamp: new Date().toISOString()
+        };
+        //console.log(ratingsData);
+        fetch('/rating', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(ratingsData)
+        })
+        .then(response => response.json())
+        .then(data => {
+          console.log('All ratings saved:', data);
+          alert('Thank you for your ratings!');
+        })
+        .catch(error => {
+          console.error('Error saving ratings:', error);
+          alert('Failed to submit ratings. Please try again.');
+        });
+      });
+    });
+  </script>
 </body>
 </html>
