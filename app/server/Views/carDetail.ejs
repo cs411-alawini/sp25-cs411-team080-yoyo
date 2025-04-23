@@ -12,115 +12,152 @@
       padding: 20px;
       color: #333;
     }
-    .container {
-      display: flex;
-      max-width: 1200px;
-      margin: 0 auto;
-      gap: 30px;
+    /* Layout for top half: car info + price trend side by side */
+    .top-container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 40px auto;
+    gap: 30px;
     }
+
+    /* Car Info Section (Left Side) */
     .car-info {
-      flex: 2;
+    flex: 1;
     }
-    .rating-section {
-      flex: 1;
-      position: sticky;
-      top: 20px;
-      align-self: flex-start;
-    }
+
     .car-title {
-      margin-bottom: 5px;
-      color: #2c3e50;
+    margin-bottom: 5px;
+    color: #2c3e50;
+    font-size: 28px;
     }
+
     .car-subtitle {
-      color: #7f8c8d;
-      margin-top: 0;
-      font-style: italic;
+    color: #7f8c8d;
+    margin-top: 0;
+    font-style: italic;
+    font-size: 16px;
     }
+
     .car-details {
-      background-color: #f9f9f9;
-      padding: 25px;
-      border-radius: 8px;
-      margin-top: 20px;
+    background-color: #f9f9f9;
+    padding: 25px;
+    border-radius: 8px;
+    margin-top: 20px;
     }
+
     .car-details p {
-      margin: 12px 0;
+    margin: 12px 0;
+    font-size: 15px;
     }
+
+    /* Price Trend Chart (Right Side) */
+    .trend-section {
+    flex: 1;
+    background-color: #f8f9fa;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    height: fit-content;
+    }
+
+    /* Rating Section (Bottom) */
+    .rating-section {
+    max-width: 1000px;
+    margin: 60px auto;
+    padding: 30px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
     .rating-container {
-      background-color: #f8f9fa;
-      padding: 25px;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 20px;
     }
+
     .rating-header {
-      font-size: 20px;
-      font-weight: bold;
-      margin-bottom: 20px;
-      text-align: center;
-      color: #2c3e50;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #2c3e50;
     }
+
     .rating-item {
-      margin-bottom: 25px;
+    margin-bottom: 25px;
     }
+
     .rating-title {
-      font-weight: bold;
-      margin-bottom: 8px;
-      display: flex;
-      justify-content: space-between;
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
     }
+
     .rating-stars {
-      display: flex;
-      justify-content: space-between;
-      font-size: 24px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 24px;
     }
+
     .star {
-      color: #ddd;
-      cursor: pointer;
-      transition: all 0.2s;
-      flex: 1;
-      text-align: center;
+    color: #ddd;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex: 1;
+    text-align: center;
     }
+
     .star:hover,
     .star.active {
-      color: #ffcc00;
-      transform: scale(1.2);
+    color: #ffcc00;
+    transform: scale(1.2);
     }
+
     .rating-result {
-      text-align: right;
-      font-size: 14px;
-      color: #7f8c8d;
-      margin-top: 5px;
+    text-align: right;
+    font-size: 14px;
+    color: #7f8c8d;
+    margin-top: 5px;
     }
+
     .overall-rating {
-      background-color: #e9f7fe;
-      padding: 15px;
-      border-radius: 8px;
-      margin-top: 30px;
+    background-color: #e9f7fe;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 30px;
     }
+
     .submit-rating {
-      display: block;
-      width: 100%;
-      padding: 12px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-      cursor: pointer;
-      margin-top: 20px;
-      transition: background-color 0.3s;
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s;
     }
+
     .submit-rating:hover {
-      background-color: #45a049;
+    background-color: #45a049;
     }
+
     .submit-rating:disabled {
-      background-color: #cccccc;
-      cursor: not-allowed;
+    background-color: #cccccc;
+    cursor: not-allowed;
     }
-  </style>
+
+
+</style>
 </head>
 <body>
-  <div class="container">
-    <!-- 左侧车辆信息 -->
+  <!-- 🧭 Top container: car info + trend side by side -->
+  <div class="top-container">
+    <!-- 🚗 Car info on the left -->
     <div class="car-info">
       <h1 class="car-title"><%= car.CarTitle %></h1>
       <p class="car-subtitle"><%= car.CarSubTitle %></p>
@@ -140,69 +177,50 @@
       </div>
     </div>
 
-    <!-- 右侧评分栏 -->
-    <div class="rating-section">
-      <div class="rating-container">
-        <div class="rating-header">Rate This Car</div>
-        
-        <!-- 外观评级 -->
-        <div class="rating-item">
-          <div class="rating-title">
-            <span>Exterior</span>
-            <span id="exteriorResult">(Not rated)</span>
-          </div>
-          <div class="rating-stars" id="exteriorRating">
-            <% for(let i=1; i<=5; i++) { %>
-              <span class="star" data-rating="<%= i %>" data-category="exterior">★</span>
-            <% } %>
-          </div>
-        </div>
-
-        <!-- 内部评级 -->
-        <div class="rating-item">
-          <div class="rating-title">
-            <span>Interior</span>
-            <span id="interiorResult">(Not rated)</span>
-          </div>
-          <div class="rating-stars" id="interiorRating">
-            <% for(let i=1; i<=5; i++) { %>
-              <span class="star" data-rating="<%= i %>" data-category="interior">★</span>
-            <% } %>
-          </div>
-        </div>
-
-        <!-- 骑行质量 -->
-        <div class="rating-item">
-          <div class="rating-title">
-            <span>Ride Quality</span>
-            <span id="rideQualityResult">(Not rated)</span>
-          </div>
-          <div class="rating-stars" id="rideQualityRating">
-            <% for(let i=1; i<=5; i++) { %>
-              <span class="star" data-rating="<%= i %>" data-category="rideQuality">★</span>
-            <% } %>
-          </div>
-        </div>
-
-        <!-- 总体评分 -->
-        <div class="rating-item overall-rating">
-          <div class="rating-title">
-            <span>Overall</span>
-            <span id="overallResult">(Not rated)</span>
-          </div>
-          <div class="rating-stars" id="overallRating">
-            <% for(let i=1; i<=5; i++) { %>
-              <span class="star" data-rating="<%= i %>" data-category="overall">★</span>
-            <% } %>
-          </div>
-        </div>
-
-        <!-- 提交按钮 -->
-        <button id="submitRatings" class="submit-rating" disabled>Submit Ratings</button>
-      </div>
+    <!-- 📈 Price trend on the right -->
+    <div class="trend-section">
+      <h2>Price Trend for "<%= car.Make + ' ' + car.Model %>"</h2>
+      <canvas id="trendChart" height="300"></canvas>
     </div>
   </div>
 
+  <!-- ⭐ Rating at the bottom -->
+  <div class="rating-section">
+    <div class="rating-container">
+      <div class="rating-header">Rate This Car</div>
+
+      <% ['exterior', 'interior', 'rideQuality'].forEach(function(cat) { %>
+        <div class="rating-item">
+          <div class="rating-title">
+            <span><%= cat.charAt(0).toUpperCase() + cat.slice(1).replace('Quality', ' Quality') %></span>
+            <span id="<%= cat %>Result">(Not rated)</span>
+          </div>
+          <div class="rating-stars" id="<%= cat %>Rating">
+            <% for(let i=1; i<=5; i++) { %>
+              <span class="star" data-rating="<%= i %>" data-category="<%= cat %>">★</span>
+            <% } %>
+          </div>
+        </div>
+      <% }); %>
+      <div class="rating-item overall-rating">
+        <div class="rating-title">
+          <span>Overall</span>
+          <span id="overallResult">(Not rated)</span>
+        </div>
+        <div class="rating-stars" id="overallRating">
+          <% for(let i=1; i<=5; i++) { %>
+            <span class="star" data-rating="<%= i %>" data-category="overall">★</span>
+          <% } %>
+        </div>
+      </div>      
+      
+
+      <button id="submitRatings" class="submit-rating" disabled>Submit Ratings</button>
+    </div>
+  </div>
+
+  <!-- Load Chart.js (put this BEFORE you use 'Chart') -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const ratingCategories = {
@@ -300,6 +318,42 @@
         });
       });
     });
+    
+    document.addEventListener('DOMContentLoaded', function () {
+        const trendData = <%- JSON.stringify(trend) %>;
+        console.log('Trend Data:', trendData); // ✅ check here
+
+        if (trendData.length > 0) {
+            const ctx = document.getElementById('trendChart').getContext('2d');
+            new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: trendData.map(d => d.ManufactureYear),
+                datasets: [{
+                label: 'Avg Price (USD)',
+                data: trendData.map(d => d.AvgPrice),
+                borderColor: '#007bff',
+                fill: false,
+                tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                x: {
+                    title: { display: true, text: 'Year' }
+                },
+                y: {
+                    title: { display: true, text: 'Avg Price' }
+                }
+                }
+            }
+            });
+        } else {
+            console.log('No trend data available');
+        }
+        });
+  
   </script>
 </body>
 </html>
