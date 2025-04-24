@@ -16,7 +16,7 @@ exports.register_rating=async (req, res) =>{
         
       });
     } catch (err) {
-      console.error('❌ Rating Error:', err);
+      console.error('Rating Error:', err);
       return res.status(500).json({
         success: false,
         error: 'Server error',

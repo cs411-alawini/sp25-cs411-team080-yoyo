@@ -27,7 +27,4 @@ router.get('/:id', userController.getSingleUser);
 
 router.post('/:id', userController.updateUser);
 
-
-
-
 module.exports = router;

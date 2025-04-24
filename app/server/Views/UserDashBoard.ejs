@@ -41,9 +41,9 @@
       <div class="col-md-2 sidebar">
         <h5 class="mb-4">Dashboard</h5>
         <ul class="nav flex-column">
-          <li class="nav-item"><a class="nav-link" href="/">🏠 Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="/user/userInfo">📊 Personal Information</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">⭐ Favorites</a></li>
+          <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="/user/userInfo">Personal Information</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Favorites</a></li>
         </ul>
       </div>
 
@@ -63,7 +63,7 @@
                     <% car.forEach(car => { %>
                       <li class="list-group-item d-flex justify-content-between align-items-center">
                         <a href="/car/<%=car.CarId%>" style="text-decoration: none; color: inherit;"><%= car.Make %> <%= car.Model %> </a>
-                        <a href="/advertisement/<%= car.CarId %>" class="btn btn-sm btn-outline-primary">Advertise</a>
+                        <a href="/advertisement/Create/<%= car.CarId %>" class="btn btn-sm btn-outline-primary">Advertise</a>
                       </li>
                     <% }) %>
                   <% } %>
@@ -91,7 +91,7 @@
                       <li class="list-group-item">
                         <div><strong>Title:</strong> <%= ad.CarAttentionGrabber || 'N/A' %></div>
                         <div class="mt-2 text-end">
-                          <button class="btn btn-sm btn-success">View Details</button>
+                          <a href="/advertisement/detail/<%= ad.AdvertisementId %>" class="btn btn-primary">View Detail</a>
                         </div>
                       </li>
                     <% }) %>
@@ -138,6 +138,11 @@
 
   <script>
     window.addEventListener('DOMContentLoaded', async () => {
+
+      <% if (typeof alertMessage !== 'undefined' && alertMessage) { %>
+          alert("<%= alertMessage %>");
+      <% } %>
+
       const res = await fetch('/alert/all');
       const alerts = await res.json();
       const list = document.getElementById('matched-cars-list');

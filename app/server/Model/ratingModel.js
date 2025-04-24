@@ -9,7 +9,6 @@ const Rating = {
     return maxRating.maxId;
   },
   
-
   async createRating(RatingId, RatingData) {
     //console.log('ratingModelRatingId');
     //console.log(RatingId)
@@ -32,8 +31,6 @@ const Rating = {
     );
     return result;
   },
-
-   
 };
 
 module.exports = Rating;
