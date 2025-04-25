@@ -3,15 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <title>User Info</title>
+  <script src="/bootstrap/js/bootstrap.bundle.min.js" defer></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #eef2f5;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      background-color: #f9f9f9;
       margin: 0;
+      padding: 0;
     }
 
     .userinfo-box {
@@ -21,6 +20,14 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.1);
       width: 100%;
       max-width: 400px;
+    }
+
+    .wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: calc(100vh - 160px); /* 預留 topbar + footer 空間 */
+      padding: 40px 20px;
     }
 
     h2 {
@@ -75,25 +82,33 @@
       color: red;
     }
   </style>
+  <link rel="stylesheet" href="/CSS/topbar.css">
 </head>
 <body>
-  <div class="userinfo-box">
-    <h2>Update Your Info</h2>
-    <form action="/user/<%= userDetail[0].UserId %>" method="POST">
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" value="<%= userDetail[0].Email %>" required />
+  <%- include('partials/topbar') %>
+  <div class="wrapper">
+    <div class="userinfo-box">
+      <h2>Update Your Info</h2>
+      <form action="/user/<%= userDetail[0].UserId %>" method="POST">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" value="<%= userDetail[0].Email %>" required />
 
-      <label for="phone">Phone:</label>
-      <input type="tel" id="phone" name="phone" value="<%= userDetail[0].Phone %>" required />
+        <label for="phone">Phone:</label>
+        <input type="tel" id="phone" name="phone" value="<%= userDetail[0].Phone %>" required />
 
-      <label for="location">Location:</label>
-      <select name="location" id="location" required>
-        <option value="Azatan" <%= userDetail[0].Location === 'Azatan' ? 'selected' : '' %>>Azatan</option>
-        <option value="Bjni" <%= userDetail[0].Location === 'Bjni' ? 'selected' : '' %>>Bjni</option>
-      </select>
+        <label for="location">Location:</label>
+        <select name="location" id="location" required>
+          <option value="Azatan" <%= userDetail[0].Location === 'Azatan' ? 'selected' : '' %>>Azatan</option>
+          <option value="Bjni" <%= userDetail[0].Location === 'Bjni' ? 'selected' : '' %>>Bjni</option>
+        </select>
 
-      <button type="submit" class="update-btn">Update</button>
-    </form>
+        <button type="submit" class="update-btn">Update</button>
+      </form>
+    </div>
   </div>
+  <%- include('partials/footer') %>
+
+  <!-- JS Script -->
+  <script src="/JS/auth.js"></script>
 </body>
 </html>
