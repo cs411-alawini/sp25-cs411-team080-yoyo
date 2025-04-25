@@ -26,8 +26,6 @@ async function getPendingAlertsByUser(userId) {
   return alerts;
 }
 
-
-
 module.exports = {
   getAlertamount,
   getPendingAlertsByUser

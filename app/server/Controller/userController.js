@@ -54,7 +54,7 @@ const userController = {
         }
       });
     } catch (err) {
-      console.error('❌ Register Error:', err);
+      console.error('Register Error:', err);
       return res.status(500).json({
         success: false,
         error: 'Server error',
@@ -96,9 +96,10 @@ const userController = {
     }
   },
 
-
   async profilePage(req, res) {
       const user = req.session.user;
+      const alertMessage = req.session.alertMessage;
+      delete req.session.alertMessage;
      
       if (!user) return res.redirect('/login');
 
@@ -109,7 +110,8 @@ const userController = {
         res.render('UserDashBoard', {
           user,
           car,
-          ads
+          ads,
+          alertMessage
         });
       } catch (err) {
         console.error(' Failed to load profile:', err);
@@ -155,7 +157,6 @@ const userController = {
         res.status(500).json({ message: 'Server error' });
       }
     }
-
   };
 
 module.exports = userController;
