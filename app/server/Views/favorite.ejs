@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+  <script src="/bootstrap/js/bootstrap.bundle.min.js" defer></script>
   <title>My Favorite Cars</title>
+  <link rel="stylesheet" href="/CSS/topbar.CSS">
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -22,6 +25,7 @@
   </style>
 </head>
 <body>
+  <%- include('partials/topbar') %>
   <h2>Your Favorite Cars</h2>
   <% if (cars.length === 0) { %>
     <p>You haven't added any cars to your favorites yet.</p>
@@ -40,5 +44,10 @@
       </div>
     <% }) %>
   <% } %>
+
+  <%- include('partials/footer') %>
+
+  <!-- JS Script -->
+  <script src="/JS/auth.js"></script>
 </body>
 </html>
