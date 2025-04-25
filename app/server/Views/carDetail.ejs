@@ -152,6 +152,38 @@
     background-color: #cccccc;
     cursor: not-allowed;
     }
+
+    .btn-outline-danger {
+    border: 1px solid #dc3545;
+    color: #dc3545;
+    background-color: transparent;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    }
+
+    .btn-outline-danger:hover {
+      background-color: #dc3545;
+      color: #fff;
+    }
+
+    .home-button {
+      display: inline-block;
+      margin-bottom: 20px;
+      padding: 8px 14px;
+      background-color: #007bff;
+      color: white;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .home-button:hover {
+      background-color: #0056b3;
+    }
+
 </style>
 <link rel="stylesheet" href="/CSS/topbar.css">
 </head>
@@ -161,6 +193,8 @@
   <div class="top-container">
     <!-- 🚗 Car info on the left -->
     <div class="car-info">
+      <!-- 🏠 Home Button -->
+      <a href="/" class="home-button">🏠 Home</a>
       <h1 class="car-title"><%= car.CarTitle %></h1>
       <p class="car-subtitle"><%= car.CarSubTitle %></p>
 
@@ -177,6 +211,10 @@
           <p><strong>Listed by:</strong> User #<%= car.UserId %></p>
         <% } %>
       </div>
+      <!-- ❤️ Favorite button form -->
+      <form action="/favorite/add/<%= car.CarId %>" method="POST" style="margin-top: 20px;">
+        <button type="submit" class="btn btn-outline-danger">❤️ Add to Favorites</button>
+      </form>
     </div>
 
     <!-- 📈 Price trend on the right -->

@@ -66,3 +66,6 @@ app.listen(3000, ()=>{
 
 const filterRoutes = require('./routes/filter');
 app.use('/filter', filterRoutes);
+
+const favoriteRoutes = require('./routes/favoriteRoute');
+app.use('/favorite', favoriteRoutes);
