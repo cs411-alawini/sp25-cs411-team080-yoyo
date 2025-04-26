@@ -5,6 +5,18 @@ exports.getAllCars = async () => {
   return rows;
 };
 
+exports.getSale_ByAge_Loc = async (Loc, age_low, age_high) => {
+  console.log("PrefModle:",Loc,age_low,age_high)
+  try {
+    const [rows] = await db.query('CALL GetCarPurchasesByLocationAndAge(?, ?, ?)', [Loc, age_low, age_high]);
+    console.log(rows[0])
+    return rows[0]; // 存储过程通常返回结果在数组的第一个元素
+  } catch (error) {
+    console.error('Error in getSale_ByAge_Loc:', error);
+    throw error; // 或者返回一个错误对象/默认值
+  }
+};
+
 exports.insertCar = async (carData, userId) => {
 
     const {
@@ -39,4 +51,21 @@ exports.getCarsByUserId = async(userId) => {
   );
   console.log(cars)
   return cars;
+};
+
+exports.getCarById = async (carId) => {
+  const [rows] = await db.query('SELECT * FROM Car WHERE CarId = ?', [carId]);
+  return rows[0]; // Return single car object
+};
+
+// Get average price by year for a given model
+exports.getPriceTrendByModel = async (makeName, modelName) => {
+  const [rows] = await db.query(`
+    SELECT ManufactureYear, AVG(CarPrice) AS AvgPrice
+    FROM Car
+    WHERE Make = ? AND Model = ?
+    GROUP BY ManufactureYear
+    ORDER BY ManufactureYear
+  `, [makeName, modelName]);
+  return rows;
 };

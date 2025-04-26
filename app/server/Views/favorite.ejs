@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+  <script src="/bootstrap/js/bootstrap.bundle.min.js" defer></script>
+  <title>My Favorite Cars</title>
+  <link rel="stylesheet" href="/CSS/topbar.CSS">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      padding: 40px;
+      background-color: #f8f9fa;
+    }
+    .car-card {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    .car-card h3 {
+      margin-top: 0;
+    }
+  </style>
+</head>
+<body>
+  <%- include('partials/topbar') %>
+  <h2>Your Favorite Cars</h2>
+  <% if (cars.length === 0) { %>
+    <p>You haven't added any cars to your favorites yet.</p>
+  <% } else { %>
+    <% cars.forEach(car => { %>
+      <div class="car-card">
+        <h3><%= car.CarTitle %></h3>
+        <p><strong>Price:</strong> $<%= car.CarPrice.toLocaleString() %></p>
+        <p><strong>Year:</strong> <%= car.ManufactureYear %></p>
+        <a href="/car/<%= car.CarId %>">View Details</a>
+
+        <!-- 💔 Remove Favorite Form -->
+        <form action="/favorite/remove/<%= car.CarId %>" method="POST" style="margin-top: 10px;">
+            <button type="submit" class="btn btn-sm btn-outline-secondary">💔 Remove</button>
+        </form>  
+      </div>
+    <% }) %>
+  <% } %>
+
+  <%- include('partials/footer') %>
+
+  <!-- JS Script -->
+  <script src="/JS/auth.js"></script>
+</body>
+</html>

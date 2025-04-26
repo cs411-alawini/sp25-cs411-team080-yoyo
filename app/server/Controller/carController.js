@@ -1,6 +1,36 @@
 // controllers/carController.js
 const carModel = require('../Model/carModel');
-cars=[];
+
+exports.checkCarOwnership = async (req, res, next) => {
+  const carId = req.params.id; 
+  const currentUser = req.session.user;
+
+  if (!currentUser) {
+    req.session.alertMessage = ' You must be logged in.';
+    return res.redirect('/login');
+  }
+
+  try {
+    const car = await carModel.getCarById(carId);
+
+    if (!car) {
+      req.session.alertMessage = ' Car not found.';
+      return res.redirect('/user/profile');
+    }
+
+    if (car.UserId !== currentUser.id) {
+      req.session.alertMessage = '⚠️ You do not own this car.';
+      return res.redirect('/user/profile');
+    }
+
+    req.car = car; 
+    next();
+  } catch (err) {
+    console.error('Car ownership check failed:', err);
+    res.status(500).send('Server error');
+  }
+};
+
 exports.getAllCars = async (req, res) => {
   try {
     cars = await carModel.getAllCars();
@@ -10,7 +40,6 @@ exports.getAllCars = async (req, res) => {
     res.status(500).json({ error: 'Server Error' });
   }
 };
-
 
  exports.handleCarForm = async (req, res) => {
   const user = req.session.user;
@@ -25,29 +54,28 @@ exports.getAllCars = async (req, res) => {
     console.error('Insert failed:', err);
     res.status(500).send('Insert error');
   }
+
 }
 
-
-// controllers/carController.js
-exports.getCarById = (req, res) => {
+//3. Render the carDetail page and trend chart
+exports.getCarById = async (req, res) => {
   try {
     const carId = parseInt(req.params.id);
-    const car = cars.find(c => c.CarId === carId);
     
-    if (car) {
-      // 渲染模板并传递格式化后的数据
-      res.render('carDetail', { 
-        car
-        
-      });
-    } else {
-      res.status(404).render('error', { message: 'Car not found' });
-      console.log('cannot found')
+    const car = await carModel.getCarById(carId);
+    if (!car) {
+      return res.status(404).render('error', { message: 'Car not found' });
     }
+
+    const trend = await carModel.getPriceTrendByModel(car.Make, car.Model); // 🆕 Trend by Make
+
+    res.render('carDetail', {
+      car,
+      trend
+    });
   } catch (err) {
-    console.error('Error:', err);
+    console.error('Error fetching car detail:', err);
     res.status(500).render('error', { message: 'Server error' });
     console.log('Server error')
   }
 };
-

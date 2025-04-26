@@ -22,6 +22,34 @@ const Advertisement = {
       SELECT * FROM Advertisement WHERE UserId = ?
     `;
     return db.query(query, [userId]);
+  },
+
+  findById: async (advertisementId) => {
+    const query = `
+      SELECT * FROM Advertisement
+      WHERE AdvertisementId = ?
+    `;
+    const [rows] = await db.query(query, [advertisementId]);
+    return rows[0]; // return the first matching row
+  },
+
+  updateById: (id, data) => {
+    const query = `
+      UPDATE Advertisement
+      SET CarAttentionGrabber = ?, FinanceAvailable = ?, Discounted = ?
+      WHERE AdvertisementId = ?
+    `;
+    return db.query(query, [
+      data.CarAttentionGrabber,
+      data.FinanceAvailable,
+      data.Discounted,
+      id
+    ]);
+  },
+
+  deleteById : async (id) => {
+    const query = `DELETE FROM Advertisement WHERE AdvertisementId = ?`;
+    return db.query(query, [id]);
   }
 };
 

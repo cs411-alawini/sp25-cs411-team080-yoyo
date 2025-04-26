@@ -16,12 +16,23 @@ exports.register_rating=async (req, res) =>{
         
       });
     } catch (err) {
-      console.error('❌ Rating Error:', err);
+      console.error('Rating Error:', err);
       return res.status(500).json({
         success: false,
         error: 'Server error',
         ...(process.env.NODE_ENV === 'development' && { details: err.stack })
       });
+    }
+  };
+
+  exports.getRatings = async (req, res) => {
+    const  CarTitle  = req.params.id;
+    try {
+      ratingsHistory = await ratingModel.getRatings(CarTitle);
+      res.json(ratingsHistory);
+    } catch (err) {
+      console.error('Read Rating Data Fail:', err);
+      res.status(500).json({ error: 'Server Error' });
     }
   };
   
