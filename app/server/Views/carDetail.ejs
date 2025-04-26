@@ -51,6 +51,7 @@
     .car-details p {
     margin: 12px 0;
     font-size: 15px;
+
     }
 
     /* Price Trend Chart (Right Side) */
@@ -62,6 +63,7 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     height: fit-content;
     }
+
 
     /* Rating Section (Bottom) */
     .rating-section {
@@ -167,6 +169,7 @@
     .btn-outline-danger:hover {
       background-color: #dc3545;
       color: #fff;
+
     }
 
     .home-button {
@@ -250,6 +253,7 @@
 
     
 
+
 </style>
 <link rel="stylesheet" href="/CSS/topbar.css">
 </head>
@@ -312,18 +316,24 @@
         <div class="rating-title">
           <span>Overall</span>
           <span id="overallResult">(Not rated)</span>
+
         </div>
         <div class="rating-stars" id="overallRating">
           <% for(let i=1; i<=5; i++) { %>
             <span class="star" data-rating="<%= i %>" data-category="overall">★</span>
           <% } %>
         </div>
+
       </div>      
       
 
       <button id="submitRatings" class="submit-rating" disabled>Submit Ratings</button>
     </div>
   </div>
+  <%- include('partials/footer') %>
+  <!-- JS Script -->
+  <script src="/JS/auth.js"></script>
+
 
   <div class="history-ratings-section">
     <div class="history-header">
@@ -346,6 +356,7 @@
   <%- include('partials/footer') %>
   <!-- JS Script -->
   <script src="/JS/auth.js"></script>
+
 
   <!-- Load Chart.js (put this BEFORE you use 'Chart') -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

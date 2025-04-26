@@ -62,9 +62,11 @@ app.get('/login', (req, res) => {
   res.render('Login'); 
 });
 
+
 app.get('/preference', (req, res) => {
   res.render('analysis'); 
 });
+
 
 app.listen(3000, ()=>{
     console.log('listen on port 3000')

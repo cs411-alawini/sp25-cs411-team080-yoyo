@@ -9,6 +9,7 @@ const Rating = {
     return maxRating.maxId;
   },
   
+
   async getRatings(CarTitle) {
     const [rows] = await db.query(
       'SELECT RatingId, ExteriorRating, InteriorRating, RideQuality, OverallRating FROM Rating WHERE CarTitle = ?', 
@@ -16,6 +17,7 @@ const Rating = {
     );
     return rows;
   },
+
 
   async createRating(RatingId, RatingData) {
     //console.log('ratingModelRatingId');
