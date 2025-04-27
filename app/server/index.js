@@ -5,6 +5,7 @@ const adRoutes = require('./routes/AdRoute');
 const alertRoutes = require('./routes/alertRoute')
 const ratingRoutes = require('./routes/ratingRoute');
 const PrefRoutes = require('./routes/PrefRoute');
+const searchRoutes = require('./routes/searchRoutes');
 
 const path = require('path');
 const session = require('express-session');
@@ -41,6 +42,7 @@ app.use('/car', carRoutes);
 app.use('/advertisement', adRoutes);
 app.use('/rating', ratingRoutes); 
 app.use('/preference', PrefRoutes); 
+app.use('/search', searchRoutes); // or app.use('/search', searchRoutes);
 
 app.get('/', (req, res) => {
   res.render('MainPage'); 
