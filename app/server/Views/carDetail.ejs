@@ -51,6 +51,7 @@
     .car-details p {
     margin: 12px 0;
     font-size: 15px;
+
     }
 
     /* Price Trend Chart (Right Side) */
@@ -62,6 +63,7 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     height: fit-content;
     }
+
 
     /* Rating Section (Bottom) */
     .rating-section {
@@ -167,6 +169,7 @@
     .btn-outline-danger:hover {
       background-color: #dc3545;
       color: #fff;
+
     }
 
     .home-button {
@@ -183,6 +186,73 @@
     .home-button:hover {
       background-color: #0056b3;
     }
+
+
+    /* 历史评分组件样式 */
+  .history-ratings-section {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+
+  .history-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .history-header h2 {
+    color: #2c3e50;
+    font-size: 24px;
+  }
+
+  .history-ratings-container {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: white;
+  }
+
+  .history-ratings-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .history-ratings-table th,
+  .history-ratings-table td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+  }
+
+  .history-ratings-table th {
+    background-color: #f5f5f5;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .history-ratings-table tr:hover {
+    background-color: #f9f9f9;
+  }
+
+  .no-ratings {
+    text-align: center;
+    padding: 30px;
+    color: #999;
+  }
+
+  /* 数字评分样式 */
+  .numeric-rating {
+    font-weight: bold;
+    color: #2c3e50;
+  }
+
+    
+
 
 </style>
 <link rel="stylesheet" href="/CSS/topbar.css">
@@ -246,12 +316,14 @@
         <div class="rating-title">
           <span>Overall</span>
           <span id="overallResult">(Not rated)</span>
+
         </div>
         <div class="rating-stars" id="overallRating">
           <% for(let i=1; i<=5; i++) { %>
             <span class="star" data-rating="<%= i %>" data-category="overall">★</span>
           <% } %>
         </div>
+
       </div>      
       
 
@@ -262,9 +334,75 @@
   <!-- JS Script -->
   <script src="/JS/auth.js"></script>
 
+
+  <div class="history-ratings-section">
+    <div class="history-header">
+      <h2>Rating History</h2>
+    </div>
+    <!-- 初始为空容器，等待JS动态加载 -->
+    <div class="history-ratings-container">
+      <!-- 初始状态：加载中或空白 -->
+      <div class="no-ratings">Loading rating history...</div>
+    </div>
+  </div>
+
+ 
+  </div>
+
+
+  
+
+
+  <%- include('partials/footer') %>
+  <!-- JS Script -->
+  <script src="/JS/auth.js"></script>
+
+
   <!-- Load Chart.js (put this BEFORE you use 'Chart') -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
+    async function refreshRatingHistory() {
+      try {
+        const carTitle = '<%= car.CarTitle %>'; 
+        const response = await fetch(`/rating/${carTitle}`);
+        const ratingsHistory = await response.json();
+        
+        const container = document.querySelector('.history-ratings-container');
+        
+        if (ratingsHistory.length > 0) {
+          console.log("refreshing");
+          container.innerHTML = `
+            <table class="history-ratings-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Exterior</th>
+                  <th>Interior</th>
+                  <th>Ride Quality</th>
+                  <th>Overall</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${ratingsHistory.map(rating => `
+                  <tr>
+                    <td>${rating.RatingId}</td>
+                    <td>${rating.ExteriorRating}</td>
+                    <td>${rating.InteriorRating}</td>
+                    <td>${rating.RideQuality}</td>
+                    <td>${rating.OverallRating}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>`;
+        } else {
+          container.innerHTML = '<div class="no-ratings">No rating history available</div>';
+        }
+      } catch (err) {
+        console.error('Refresh failed:', err);
+      }
+    }
+
+
     document.addEventListener('DOMContentLoaded', function() {
       const ratingCategories = {
         exterior: { element: null, result: null, value: null },
@@ -274,6 +412,7 @@
       };
       
       const submitButton = document.getElementById('submitRatings');
+
       
       // 初始化每个评分组件
       Object.keys(ratingCategories).forEach(category => {
@@ -319,7 +458,7 @@
           });
         });
       });
-
+      
       // 检查是否有至少一个评分
       function checkRatings() {
         const hasRating = Object.values(ratingCategories).some(
@@ -327,6 +466,8 @@
         );
         submitButton.disabled = !hasRating;
       }
+
+      refreshRatingHistory();
 
       // 提交所有评分
       submitButton.addEventListener('click', function() {
@@ -359,6 +500,8 @@
           console.error('Error saving ratings:', error);
           alert('Failed to submit ratings. Please try again.');
         });
+        setTimeout(refreshRatingHistory, 1000); // 1000ms = 1s
+        refreshRatingHistory();
       });
     });
     

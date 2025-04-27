@@ -24,4 +24,15 @@ exports.register_rating=async (req, res) =>{
       });
     }
   };
+
+  exports.getRatings = async (req, res) => {
+    const  CarTitle  = req.params.id;
+    try {
+      ratingsHistory = await ratingModel.getRatings(CarTitle);
+      res.json(ratingsHistory);
+    } catch (err) {
+      console.error('Read Rating Data Fail:', err);
+      res.status(500).json({ error: 'Server Error' });
+    }
+  };
   

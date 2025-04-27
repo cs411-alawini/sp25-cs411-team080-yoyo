@@ -1,0 +1,5 @@
+const express = require('express');
+const router = express.Router();
+const PrefController = require('../Controller/PrefController');
+router.post('/', PrefController.getPref);
+module.exports = router;
