@@ -1,30 +1,104 @@
 <!-- Views/FilterPage.ejs -->
-<h2>Filter Cars</h2>
-<form method="POST" action="/filter/results">
-  <label>Make:</label>
-  <input type="text" name="make" />
+<h2 style="text-align:center;">Filter Cars</h2>
 
-  <label>Model:</label>
-  <input type="text" name="model" />
+<style>
+  .filter-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
 
-  <label>Min Price:</label>
-  <input type="number" name="minPrice" />
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+  }
 
-  <label>Max Price:</label>
-  <input type="number" name="maxPrice" />
+  .form-inline-group {
+    display: flex;
+    gap: 10px;
+  }
 
-  <label>Year Range:</label>
-  <input type="number" name="minYear" placeholder="From" />
-  <input type="number" name="maxYear" placeholder="To" />
+  .form-inline-group div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
 
-  <label>Body Type:</label>
-  <input type="text" name="bodyType" />
+  input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
 
-  <label>Fuel Type:</label>
-  <input type="text" name="fuelType" />
+  button {
+    margin-top: 10px;
+    padding: 12px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
 
-  <label>Transmission Type:</label>
-  <input type="text" name="transmissionType" />
+  button:hover {
+    background-color: #45a049;
+  }
+</style>
+
+<form class="filter-form" method="POST" action="/filter/results">
+  <div class="form-group">
+    <label>Make:</label>
+    <input type="text" name="make" />
+  </div>
+
+  <div class="form-group">
+    <label>Model:</label>
+    <input type="text" name="model" />
+  </div>
+
+  <div class="form-group form-inline-group">
+    <div>
+      <label>Min Price:</label>
+      <input type="number" name="minPrice" />
+    </div>
+    <div>
+      <label>Max Price:</label>
+      <input type="number" name="maxPrice" />
+    </div>
+  </div>
+
+  <div class="form-group form-inline-group">
+    <div>
+      <label>Min Year:</label>
+      <input type="number" name="minYear" placeholder="From" />
+    </div>
+    <div>
+      <label>Max Year:</label>
+      <input type="number" name="maxYear" placeholder="To" />
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Body Type:</label>
+    <input type="text" name="bodyType" />
+  </div>
+
+  <div class="form-group">
+    <label>Fuel Type:</label>
+    <input type="text" name="fuelType" />
+  </div>
+
+  <div class="form-group">
+    <label>Transmission Type:</label>
+    <input type="text" name="transmissionType" />
+  </div>
 
   <button type="submit">Search</button>
 </form>
