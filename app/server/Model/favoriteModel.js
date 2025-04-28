@@ -9,9 +9,10 @@ exports.addToFavorite = async (userId, carId) => {
 
 exports.getFavoritesByUserId = async (userId) => {
   const [rows] = await db.query(`
-    SELECT c.*
+    SELECT c.*, 
+           (SELECT COUNT(*) FROM Favorite f2 WHERE f2.CarId = c.CarId) AS FavoriteCount
     FROM Car c
-    JOIN Favorite f ON c.CarId = f.CarId
+    INNER JOIN Favorite f ON c.CarId = f.CarId
     WHERE f.UserId = ?
   `, [userId]);
   return rows;
