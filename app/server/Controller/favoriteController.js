@@ -1,3 +1,4 @@
+const db = require('../DB/db');
 const favoriteModel = require('../Model/favoriteModel');
 
 exports.addFavorite = async (req, res) => {
@@ -6,12 +7,29 @@ exports.addFavorite = async (req, res) => {
 
   if (!userId) return res.status(403).send('Login required');
 
+  const conn = await db.getConnection();
   try {
-    await favoriteModel.addToFavorite(userId, carId);
+    await conn.query('SET TRANSACTION ISOLATION LEVEL READ COMMITTED');
+    await conn.beginTransaction();
+
+    await conn.query(
+      'INSERT IGNORE INTO Favorite (UserId, CarId) VALUES (?, ?)',
+      [userId, carId]
+    );
+
+    await conn.query(
+      'INSERT INTO ActivityLog (UserId, Action) VALUES (?, ?)',
+      [userId, `Favorited car ID ${carId}`]
+    );
+
+    await conn.commit();
     res.redirect('/car/' + carId);
   } catch (err) {
-    console.error('Add favorite failed:', err);
+    console.error('Add favorite failed (transaction rolled back):', err);
+    await conn.rollback();
     res.status(500).send('Favorite error');
+  } finally {
+    conn.release();
   }
 };
 
@@ -37,12 +55,32 @@ exports.getUserFavorites = async (req, res) => {
   const user = req.session.user;
   if (!user) return res.redirect('/login');
 
+  const conn = await db.getConnection(); // 1. getConnection()
+
   try {
+    await conn.beginTransaction(); // 2. begin transaction
+
     const cars = await favoriteModel.getFavoritesByUserId(user.id);
-    res.render('favorite', { cars });
+
+    const [activities] = await conn.query(`
+      SELECT a.Timestamp, c.CarTitle
+      FROM ActivityLog a
+      JOIN Car c ON CAST(SUBSTRING_INDEX(a.Action, 'ID ', -1) AS UNSIGNED) = c.CarId
+      WHERE a.UserId = ?
+        AND a.Action LIKE 'Favorited car ID%'
+      ORDER BY a.Timestamp DESC
+      LIMIT 5
+    `, [user.id]);
+
+    await conn.commit(); // 3. commit transaction
+
+    res.render('favorite', { cars, activities });
   } catch (err) {
-    console.error('Failed to fetch favorites:', err);
+    await conn.rollback(); // 4. rollback if any error
+    console.error('Failed to fetch favorites or activities:', err);
     res.status(500).send('Server error');
+  } finally {
+    conn.release(); // 5. always release connection
   }
 };
 

@@ -2,14 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
-  <script src="/bootstrap/js/bootstrap.bundle.min.js" defer></script>
   <title>My Favorite Cars</title>
+  <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="/CSS/topbar.CSS">
+  <script src="/bootstrap/js/bootstrap.bundle.min.js" defer></script>
+
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
       background-color: #f8f9fa;
+    }
+    .favoriteList {
+      padding: 40px;
     }
     .car-card {
       background-color: white;
@@ -20,16 +24,53 @@
     }
     .car-card h3 {
       margin-top: 0;
+      color: #007bff;
     }
-    .favoriteList {
-      padding: 40px;
+    .favorite-count {
+      color: #555;
+      font-size: 0.95em;
+      margin-bottom: 10px;
+    }
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .recent-activities {
+      margin-top: 40px;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .recent-activities h4 {
+      margin-bottom: 20px;
+      color: #007bff;
     }
   </style>
 </head>
+
 <body>
   <%- include('partials/topbar') %>
-  <div class= "favoriteList">
+  <div class="recent-activities mt-5">
+    <h4>🕓 Recent Activity</h4>
+  
+    <% if (activities.length === 0) { %>
+      <p>No recent activities yet.</p>
+    <% } else { %>
+      <ul class="list-group">
+        <% activities.forEach(log => { %>
+          <li class="list-group-item">
+            ⭐ You favorited "<%= log.CarTitle %>" - <%= new Date(log.Timestamp).toLocaleString() %>
+          </li>
+        <% }) %>
+      </ul>
+    <% } %>
+  </div>
+
+  <div class="favoriteList">
     <h2>Your Favorite Cars</h2>
+
     <% if (cars.length === 0) { %>
       <p>You haven't added any cars to your favorites yet.</p>
     <% } else { %>
@@ -38,18 +79,24 @@
           <h3><%= car.CarTitle %></h3>
           <p><strong>Price:</strong> $<%= car.CarPrice.toLocaleString() %></p>
           <p><strong>Year:</strong> <%= car.ManufactureYear %></p>
-          <a href="/car/<%= car.CarId %>">View Details</a>
 
-          <form action="/favorite/remove/<%= car.CarId %>" method="POST" style="margin-top: 10px;">
-              <button type="submit" class="btn btn-sm btn-outline-secondary">💔 Remove</button>
-          </form>  
+          <!-- ⭐ Favorite Count -->
+          <p class="favorite-count">⭐ Favorited by <%= car.FavoriteCount %> users</p>
+
+          <div class="button-group">
+            <a href="/car/<%= car.CarId %>" class="btn btn-primary btn-sm">View Details</a>
+
+            <form action="/favorite/remove/<%= car.CarId %>" method="POST" style="display:inline;">
+              <button type="submit" class="btn btn-outline-danger btn-sm">💔 Remove</button>
+            </form>
+          </div>
         </div>
       <% }) %>
     <% } %>
   </div>
+
   <%- include('partials/footer') %>
 
-  <!-- JS Script -->
   <script src="/JS/auth.js"></script>
 </body>
 </html>
