@@ -25,6 +25,6 @@ router.get('/userInfo', userController.userProfile);
 
 router.get('/:id', userController.getSingleUser);
 
-router.post('/:id', userController.updateUser);
+router.post('/:id', userController.checkUserOwnership ,userController.updateUser);
 
 module.exports = router;
