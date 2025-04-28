@@ -330,7 +330,6 @@
       <button id="submitRatings" class="submit-rating" disabled>Submit Ratings</button>
     </div>
   </div>
-  <%- include('partials/footer') %>
   <!-- JS Script -->
   <script src="/JS/auth.js"></script>
 
@@ -345,15 +344,8 @@
       <div class="no-ratings">Loading rating history...</div>
     </div>
   </div>
-
- 
+   <%- include('partials/footer') %>
   </div>
-
-
-  
-
-
-  <%- include('partials/footer') %>
   <!-- JS Script -->
   <script src="/JS/auth.js"></script>
 
@@ -366,7 +358,7 @@
         const carTitle = '<%= car.CarTitle %>'; 
         const response = await fetch(`/rating/${carTitle}`);
         const ratingsHistory = await response.json();
-        
+
         const container = document.querySelector('.history-ratings-container');
         
         if (ratingsHistory.length > 0) {
@@ -413,8 +405,6 @@
       
       const submitButton = document.getElementById('submitRatings');
 
-      
-      // 初始化每个评分组件
       Object.keys(ratingCategories).forEach(category => {
         ratingCategories[category].element = document.getElementById(`${category}Rating`);
         ratingCategories[category].result = document.getElementById(`${category}Result`);
@@ -425,8 +415,7 @@
           star.addEventListener('click', function() {
             const rating = parseInt(this.getAttribute('data-rating'));
             ratingCategories[category].value = rating;
-            
-            // 更新星星样式
+
             stars.forEach((s, index) => {
               if (index < rating) {
                 s.classList.add('active');
@@ -434,15 +423,12 @@
                 s.classList.remove('active');
               }
             });
-            
-            // 显示评分结果
+
             ratingCategories[category].result.textContent = `${rating}/5`;
-            
-            // 检查是否有至少一个评分，启用提交按钮
             checkRatings();
           });
           
-          // 鼠标悬停效果
+
           star.addEventListener('mouseover', function() {
             const hoverRating = parseInt(this.getAttribute('data-rating'));
             stars.forEach((s, index) => {
@@ -459,7 +445,6 @@
         });
       });
       
-      // 检查是否有至少一个评分
       function checkRatings() {
         const hasRating = Object.values(ratingCategories).some(
           category => category.value !== null
@@ -469,7 +454,7 @@
 
       refreshRatingHistory();
 
-      // 提交所有评分
+
       submitButton.addEventListener('click', function() {
         const ratingsData = {
           carId: '<%= car.CarId %>',
@@ -493,11 +478,15 @@
         })
         .then(response => response.json())
         .then(data => {
-          console.log('All ratings saved:', data);
-          alert('Thank you for your ratings!');
+          if (!data.success && data.error && data.error.includes('Unauthorized')) {
+            alert('Please login before submit rating');
+            window.location.href = '/login';  
+          } else {
+            alert('Thank you for your ratings!');
+            setTimeout(refreshRatingHistory, 1000);
+          }
         })
         .catch(error => {
-          console.error('Error saving ratings:', error);
           alert('Failed to submit ratings. Please try again.');
         });
         setTimeout(refreshRatingHistory, 1000); // 1000ms = 1s

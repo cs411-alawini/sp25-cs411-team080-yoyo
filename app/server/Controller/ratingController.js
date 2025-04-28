@@ -2,8 +2,18 @@ const ratingModel = require('../Model/ratingModel');
 
 exports.register_rating=async (req, res) =>{
     const RatingData = req.body;
-    //console.log('ratingController');
-    //console.log(RatingData);
+    
+    const currentUser = req.session.user;
+
+    if (!currentUser) {
+      return res.status(401).json({
+        success: false,
+        error: 'Unauthorized: Please login first'
+      });
+    }
+
+    
+
     try {
       const maxRatingId = await ratingModel.getMaxRatingId();
       const newRatingId = maxRatingId ? maxRatingId + 1 : 1;
