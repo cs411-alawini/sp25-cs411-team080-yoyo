@@ -15,7 +15,6 @@ exports.checkAdOwnership = async (req, res, next) => {
     if (!ad) {
       return res.status(404).send('Advertisement not found');
     }
-    console.log()
     if (ad.UserId !== currentUser.id) {
       req.session.alertMessage = '⚠️ You are not allowed to modify this advertisement.';
       return res.redirect('/user/profile')

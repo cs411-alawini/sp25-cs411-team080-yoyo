@@ -3,6 +3,21 @@ const carModel = require('../Model/carModel');
 const adModel = require('../Model/AdModle')
 
 const userController = {
+  async checkUserOwnership (req, res, next){
+    const currentUser = req.session.user;
+    const targetUserId = req.params.id
+
+    if (!currentUser) {
+      return res.redirect('/login');
+    }
+  
+    if (parseInt(currentUser.id) !== parseInt(targetUserId)) {
+      return res.status(403).send('Forbidden. You cannot modify another user\'s information.');
+    }
+  
+    next();
+  },
+
   async loginUser(req, res) {
     const { Name, Password } = req.body;
 
@@ -91,8 +106,8 @@ const userController = {
 
       res.json(users[0]);
     } catch (error) {
-      console.error(' Error fetching user:', error);
-      res.status(500).json({ message: 'Internal server error' });
+      req.session.alertMessage = 'you are not authorized to modify this user."';
+      return res.redirect('/user/profile')
     }
   },
 
@@ -147,10 +162,14 @@ const userController = {
         const car = await carModel.getCarsByUserId(user.id);
         const [ads] = await adModel.getByUserId(user.id);
 
+        const alertMessage = req.session.alertMessage || null;
+        req.session.alertMessage = null; 
+
         res.render('UserDashBoard', {
           user,
           car,
-          ads
+          ads,
+          alertMessage,
         });
       } catch (err) {
         console.error('Update error:', err);
